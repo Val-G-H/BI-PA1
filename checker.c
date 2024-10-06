@@ -54,20 +54,20 @@ int test_scan(char *test_case, char *sentence) {
         // print_dumper(test_case, conversions, quoteNumber_f, str, ooga);
         return 1;
     }
+
+    // the number is followed by something, abd it is not a Linux new line delimeter (0x0a)
+    if (((conversions == 2) && (str[0] != 0x0a)) || (conversions == 3)) {
+        printf("bIjatlh 'e' yImev\n");
+        //print_dumper(test_case, conversions, quoteNumber_f, str, ooga);
+        return 1;
+    }
     
     // the number is outside of quotation range
 	if ((intpart_i < 0) || (intpart_i > 8)) {
 		printf("Qih mi' %d\n", intpart_i);
-        // print_dumper(test_case, conversions, quoteNumber_f, str, ooga);
+        print_dumper(test_case, conversions, quoteNumber_f, str, ooga);
 		return 1;
 	}
-
-    // the number is followed by something, and it is not a Linux new line delimeter (0x0a)
-    if (((conversions == 2) && (str[0] != 0x0a)) || (conversions == 3)) {
-        printf("bIjatlh 'e' yImev\n");
-        print_dumper(test_case, conversions, quoteNumber_f, str, ooga);
-        return 1;
-    }
     
 	printf("Qapla'\n");
 	switch (intpart_i) {
