@@ -1,0 +1,296 @@
+
+ProgTest  ►  BI-PA1 (24/25 ZS)  ►  Zahřívací úloha  ►  Citáty
+Logout
+
+Termín odevzdání: 	21.10.2024 11:59:59 	1378340.649 sec
+Hodnocení: 	1.1000
+Max. hodnocení: 	1.0000 (bez bonusů)
+Odevzdaná řešení: 	3 / 20 Volné pokusy + 10 Penalizované pokusy (-10 % penalizace za každé odevzdání)
+Nápovědy: 	2 / 2 Volné nápovědy + 2 Penalizované nápovědy (-10 % penalizace za každou nápovědu)
+
+Úkolem je vytvořit program, který bude zobrazovat vybrané citáty.
+
+Vstupem programu je jedno celé číslo. Toto číslo je z rozsahu 0 až 8 a určuje citát, který má být zobrazen.
+
+Výstupem programu je citát odpovídající zadanému číslu na vstupu. Citáty odpovídající jednotlivým číslům jsou uvedené v ukázkových bězích programu níže. Pozor, za textem citátu je odřádkování (\n).
+
+Pokud je vstup neplatný, program to musí detekovat a zobrazit chybové hlášení. Chybové hlášení zobrazujte na standardní výstup (ne na chybový výstup). Za chybu považujte:
+
+    ze vstupu nelze přečíst celé číslo,
+    číslo přečtené ze vstupu je mimo interval 0 až 8.
+
+Povšimněte si, že program zobrazuje různá chybová hlášení. První chybové hlášení se uplatní, pokud program nemůže ze vstupu přečíst platné celé číslo. Druhé chybové hlášení se pak použije, pokud je načtené číslo mimo rozsah (viz ukázka).
+
+Při programování si dejte pozor na přesnou podobu výpisů. Výstup Vašeho programu kontroluje stroj, který požaduje přesnou shodu výstupů Vašeho programu s výstupy referenčními. Za chybu je považováno, pokud se výpis liší. I chybějící nebo přebývající mezera/odřádkování je považováno za chybu. Abyste tyto problémy rychle vyloučili, použijte přiložený archiv se sadou vstupních a očekávaných výstupních dat. Podívejte se na videotutoriál (courses -> výuková videa), jak testovací data použít a jak testování zautomatizovat.
+
+Váš program bude spouštěn v omezeném testovacím prostředí. Je omezen dobou běhu (limit je vidět v logu referenčního řešení) a dále je omezena i velikost dostupné paměti (ale tato úloha by ani s jedním omezením neměla mít problém). Testovací prostředí dále zakazuje používat některé "nebezpečné funkce" -- funkce pro spouštění programu, pro práci se sítí, ... Pokud jsou tyto funkce použité, program se nespustí. Možná ve svém programu používáte volání:
+
+int main ( int argc, char * argv [] )
+{
+ 
+  ...
+     
+  system ( "pause" ); /* aby se nezavrelo okno programu */
+  return 0;
+}
+
+Toto nebude v testovacím prostředí fungovat - je zakázáno spouštění jiného programu. (I pokud by se program spustil, byl by odmítnut. Nebyl by totiž nikdo, kdo by pauzu "odmáčkl", program by čekal věčně a překročil by tak maximální dobu běhu.) Pokud tedy chcete zachovat pauzu pro testování na Vašem počítači a zároveň chcete mít jistotu, že program poběží správně, použijte následující trik:
+
+int main ( int argc, char * argv [] )
+{
+ 
+  ...
+
+#ifndef __PROGTEST__
+  system ( "pause" ); /* toto progtest "nevidi" */
+#endif /* __PROGTEST__ */
+  return 0;
+} 
+
+Ukázka práce programu:
+
+ml' nob:
+0
+Qapla'
+noH QapmeH wo' Qaw'lu'chugh yay chavbe'lu' 'ej wo' choqmeH may' DoHlu'chugh lujbe'lu'.
+
+ml' nob:
+1
+Qapla'
+bortaS bIr jablu'DI' reH QaQqu' nay'.
+
+ml' nob:
+2
+Qapla'
+Qu' buSHa'chugh SuvwI', batlhHa' vangchugh, qoj matlhHa'chugh, pagh ghaH SuvwI''e'.
+
+ml' nob:
+3
+Qapla'
+bISeH'eghlaH'be'chugh latlh Dara'laH'be'.
+
+ml' nob:
+4
+Qapla'
+qaStaHvIS wa' ram loS SaD Hugh SIjlaH qetbogh loD.
+
+ml' nob:
+5
+Qapla'
+Suvlu'taHvIS yapbe' HoS neH.
+
+ml' nob:
+6
+Qapla'
+Ha'DIbaH DaSop 'e' DaHechbe'chugh yIHoHQo'.
+
+ml' nob:
+007
+Qapla'
+Heghlu'meH QaQ jajvam.
+
+ml' nob:
+           8
+Qapla'
+leghlaHchu'be'chugh mIn lo'laHbe' taj jej.
+
+ml' nob:
+29
+Qih mi' 29
+
+ml' nob:
+-5
+Qih mi' -5
+
+ml' nob:
+abc
+Neh mi'
+
+Poznámky:
+
+    Ukázkové běhy zachycují očekávané výpisy Vašeho programu (tučné písmo) a vstupy zadané uživatelem (základní písmo). Zvýraznění tučným písmem je použité pouze zde na stránce zadání, aby byl výpis lépe čitelný. Váš program má za úkol pouze zobrazit text bez zvýrazňování (bez HTML markupu).
+    Znak odřádkování (\n) je i za poslední řádkou výstupu (i za případným chybovým hlášením).
+    Výzvy programu a citáty jsou úmyslně zvoleny tak, aby bylo obtížné je ručně opisovat. Úloha se Vás snaží mj. naučit efektivní práci s počítačem, tedy např. s funkcemi copy & paste (které bohužel někteří studenti neznají nebo neumějí použít). Vyzkoušejte si a naučte se copy & paste jak pod Windows tak pod UNIXem (Linuxem), u závěrečného testu se to bude hodit!
+    Ruční kontrola shody Vašeho a referenčního výstupu je nudná, člověk při porovnávání často přehlédne drobný rozdíl. Obzvláště to platí u textu v úloze, který pro většinu lidí není srozumitelný. Toto je opět záměr. Využijte volna na začátku semestru a naučte se v této jednoduché úloze efektivně testovat Vaše programy. Podívejte se na zmíněný videotutoriál (courses -> výuková videa) a využijte pro porovnání Váš počítač. V dalších úlohách tím ušetříte mnoho času.
+    Vstup typu 1.23 případně 1abcd není správný. Jeho ošetření je ale pracnější. Program proto můžete realizovat v jednodušší podobě, která takový vstup akceptuje jako číslo 1. Takový program bude hodnocen nominálním počtem bodů (100 %). Pro zájemce je k dispozici bonusový test, který zkouší zadávat právě tento typ vstupů. Pokud správně ošetříte i tento typ chyb, bude váš program hodnocen body navíc. Ukázka práce programu pro tento typ vstupu:
+
+    ml' nob:
+    1.23
+    bIjatlh 'e' yImev
+
+Vzorová data: 	
+Download
+Odevzdat: 		
+
+ Referenční řešení 	 
+
+    Hodnotitel: automat
+        Program zkompilován
+        Test 'Z8kladn9 test s daty podle ukázky': Úspěch
+            Dosaženo: 100.00 %, požadováno: 100.00 %
+            Max doba běhu: 0.007 s (limit: 1.000 s)
+            Celková doba běhu: 0.074 s
+            Úspěch v závazném testu, hodnocení: 100.00 %
+        Test 'Test ošetření nesprávných vstupů': Úspěch
+            Dosaženo: 100.00 %, požadováno: 100.00 %
+            Max doba běhu: 0.006 s (limit: 1.000 s)
+            Celková doba běhu: 0.107 s
+            Úspěch v závazném testu, hodnocení: 100.00 %
+        Test 'Test ošetření nesprávných vstupů (bonus)': Úspěch
+            Dosaženo: 100.00 %, požadováno: 100.00 %
+            Max doba běhu: 0.008 s (limit: 1.000 s)
+            Celková doba běhu: 0.086 s
+            Úspěch v bonusovém testu, hodnocení: 110.00 %
+        Celkové hodnocení: 110.00 % (= 1.00 * 1.00 * 1.10)
+    Celkové procentní hodnocení: 110.00 %
+    Bonus za včasné odevzdání: 0.10
+    Celkem bodů: 1.10 * ( 1.00 + 0.10 ) = 1.21
+
+SW metriky:
+  	Celkem 	Průměr 	Maximum 	Jméno funkce
+Funkce: 	1 	-- 	-- 	--
+Řádek kódu: 	38 	38.00 ± 0.00 	38 	main
+Cyklomatická složitost: 	6 	6.00 ± 0.00 	6 	main
+
+3 	05.10.2024 12:11:14 	
+Download
+Stav odevzdání: 	Ohodnoceno 	 
+Hodnocení: 	1.1000
+
+    Hodnotitel: automat
+        Program zkompilován
+        Test 'Z8kladn9 test s daty podle ukázky': Úspěch
+            Dosaženo: 100.00 %, požadováno: 100.00 %
+            Max doba běhu: 0.007 s (limit: 1.000 s)
+            Celková doba běhu: 0.085 s
+            Úspěch v závazném testu, hodnocení: 100.00 %
+        Test 'Test ošetření nesprávných vstupů': Úspěch
+            Dosaženo: 100.00 %, požadováno: 100.00 %
+            Max doba běhu: 0.007 s (limit: 1.000 s)
+            Celková doba běhu: 0.128 s
+            Úspěch v závazném testu, hodnocení: 100.00 %
+        Test 'Test ošetření nesprávných vstupů (bonus)': Neúspěch
+            Dosaženo: 78.57 %, požadováno: 100.00 %
+            Max doba běhu: 0.010 s (limit: 1.000 s)
+            Celková doba běhu: 0.102 s
+            Neúspěch v bonusovém testu, hodnocení: Bonus nebude udělen
+            Nesprávný výstup [Zpřístupnit nápovědu (88 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (76 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (88 B)]
+        Celkové hodnocení: 100.00 % (= 1.00 * 1.00)
+    Použité nápovědy: 2
+    Penalizace za vyčerpané nápovědy: Není (2 <= 2 limit)
+    Celkové procentní hodnocení: 100.00 %
+    Bonus za včasné odevzdání: 0.10
+    Celkem bodů: 1.00 * ( 1.00 + 0.10 ) = 1.10
+
+SW metriky:
+  	Celkem 	Průměr 	Maximum 	Jméno funkce
+Funkce: 	1 	-- 	-- 	--
+Řádek kódu: 	49 	49.00 ± 0.00 	49 	main
+Cyklomatická složitost: 	6 	6.00 ± 0.00 	6 	main
+
+2 	05.10.2024 12:05:35 	
+Download
+Stav odevzdání: 	Ohodnoceno 	 
+Hodnocení: 	1.1000
+
+    Hodnotitel: automat
+        Program zkompilován
+        Test 'Z8kladn9 test s daty podle ukázky': Úspěch
+            Dosaženo: 100.00 %, požadováno: 100.00 %
+            Max doba běhu: 0.007 s (limit: 1.000 s)
+            Celková doba běhu: 0.085 s
+            Úspěch v závazném testu, hodnocení: 100.00 %
+        Test 'Test ošetření nesprávných vstupů': Úspěch
+            Dosaženo: 100.00 %, požadováno: 100.00 %
+            Max doba běhu: 0.007 s (limit: 1.000 s)
+            Celková doba běhu: 0.126 s
+            Úspěch v závazném testu, hodnocení: 100.00 %
+        Test 'Test ošetření nesprávných vstupů (bonus)': Neúspěch
+            Dosaženo: 78.57 %, požadováno: 100.00 %
+            Max doba běhu: 0.010 s (limit: 1.000 s)
+            Celková doba běhu: 0.101 s
+            Neúspěch v bonusovém testu, hodnocení: Bonus nebude udělen
+            Nesprávný výstup [Zpřístupnit nápovědu (75 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (63 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (75 B)]
+        Celkové hodnocení: 100.00 % (= 1.00 * 1.00)
+    Použité nápovědy: 2
+    Penalizace za vyčerpané nápovědy: Není (2 <= 2 limit)
+    Celkové procentní hodnocení: 100.00 %
+    Bonus za včasné odevzdání: 0.10
+    Celkem bodů: 1.00 * ( 1.00 + 0.10 ) = 1.10
+
+SW metriky:
+
+1 	05.10.2024 11:56:30 	
+Download
+Stav odevzdání: 	Ohodnoceno 	 
+Hodnocení: 	1.1000
+
+    Hodnotitel: automat
+        Program zkompilován
+        Test 'Z8kladn9 test s daty podle ukázky': Úspěch
+            Dosaženo: 100.00 %, požadováno: 100.00 %
+            Max doba běhu: 0.007 s (limit: 1.000 s)
+            Celková doba běhu: 0.085 s
+            Úspěch v závazném testu, hodnocení: 100.00 %
+        Test 'Test ošetření nesprávných vstupů': Úspěch
+            Dosaženo: 100.00 %, požadováno: 100.00 %
+            Max doba běhu: 0.007 s (limit: 1.000 s)
+            Celková doba běhu: 0.128 s
+            Úspěch v závazném testu, hodnocení: 100.00 %
+        Test 'Test ošetření nesprávných vstupů (bonus)': Neúspěch
+            Dosaženo: 42.86 %, požadováno: 100.00 %
+            Max doba běhu: 0.009 s (limit: 1.000 s)
+            Celková doba běhu: 0.101 s
+            Neúspěch v bonusovém testu, hodnocení: Bonus nebude udělen
+             Nesprávný výstup
+             Vstupní data [3 B / 3 B]
+
+            8J
+
+             Výstupní data [59 B / 59 B]
+
+            ml' nob:
+            Qapla'
+            leghlaHchu'be'chugh mIn lo'laHbe' taj jej.
+
+             Reference [27 B / 27 B]
+
+            ml' nob:
+            bIjatlh 'e' yImev
+
+            Nesprávný výstup [Zpřístupnit nápovědu (98 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (132 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (133 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (79 B)]
+             Nesprávný výstup
+             Vstupní data [2048 B / 3253 B]
+
+            1NZKXTDTSUPFZFYOWRQDFORKUPXYANRSHCWRFTASUTHNMMCSAMOWCMOKBOFGJDABPVCLGFCCXLJKZMMYMTKQFEBYHHFXMPFQIQIYNFHLARXEHWDHMJQRRBRITEOVPYUBMISJXGKJLSFQQTFPOMSWTWQZQPMGCNKQXOXPPYJKWXCHIBVNZCQKTAVAOPMOKWHNQJPLERBHKUZENABZXYGOCJKZMSPJMDITRTPHODOAFPMGUJMZCVGMKOHEMDTZEUISUDEHOEEXVOTEGKINDPJMUSGJCKUFFMFEIUJWTRXYRMKZVWKGKPIJJNKERUUIJAXCNYFNCYNIEWCWVTQHJEXQVBRTCOSLUALYACYJJAGKKSLWCRLKBJMNHTVCODKDTHASXWNYOKVMAOIYMQTOFOFLEYWSWPCNTQQHVDQGKUJOVKUSNSOZCPLGKZNAKOEGTIFXARIQMGUGWYMLOPHFZUFJOMETCGJJPGBSSYWPJJLHUDBCQEZAVDGAJPHOUTKVDGWHBSMSTWVVQSXKTNXJFSZXIZRIMSUADQEQIPKALYNHSYNYSABSGDYVLCPSLGHWXTCXIKIWDRUJWWRIOJITMIKOZYXLTYNTVKRJMNNILMTDJFEJKBFRCIGZULMVSMDPNVPSUWKSJBBTMWZLBDKOEADEIADEAEGDZFMARKQYAIHXSNLSSMAFWPTBFUSBOYEPGSEIQQQTELSXUGSNVAKIXKUSOJPUCSWSEIEXUWUBSRVUTNAVXWUFDTIGYOKTLPHWTYWYHTVDWMEXSJMSFYOMAZMUZKESOBNSFKQEIBDNRSEHCRTTXCFQIOMPSPQGEOCACSBPNFFFZOZVFIVUSFYLDPNDMMDBKFTZAJYOMTVOORIFLOCJAVEELAMVJPMDYBNGZQJNYOLADUTLWGMOTJLVIMIOVELISEEHZXNLXISDIFLHIZQPPYFCCWGMFYGJWOEYWMVWPOQZIWPJATISSNGEHKPZQLWHVUYZMULIIOACVFLZKYXTGLULCJRXZRXUOJKVZMKU
+
+            <skipping 1205 B>
+
+            YWJRDZABPXXZNSRNJCUOMUXYDPALZZXMNLBJRBBPHYPCLVHSTPRLQRAEADZVPEUFAHGCKGLINEGKTQYXANHZMSJFPFANZZRBJXHPJCUYEZMLEZWHGCEJVLOZNXYXAYAPHFBXNDRTXEJWWRVPXSAGWROIYRSSQUYDHNHLGCHDAEVWWDSRBSWZHORUYEZOTFKZZPPYNDHWZGZXJZOKWUGQPAOXRLXTFNAMUMCABNCCPPUTXLBBZFBVGCNLFRMWDYQLLAGLBNGBONTTJYOYMFWBAMSQPYUTDSKPKKKFTGJRYHQUATDVXDMHEJGJFQEMUCTLHGQKYZAYZHIEKJQDIISFTCSQJEKLIUTUIWLMSTMDMTCDAGRJXFHZZCKTSVKMLLMCNYJRVUZNVTKQBFGZMGFCOFTWCGAEASVJFHRVWJEJTXMMXEXRJKEIWOXFVGTDLGAOCMCBDGBEHDHSMNZGKXHOPEAWHUCQNDABLAJDLMUDUIMRWWSNICZKZFATPKAZDLCLMOXQHHNDDXOWDMIZYFJJDUGSCDAILJVAGSMQORRPRKUSXAZREJLBQMVPRSIGTYZAWETLZHHDWDZGYYUQPQXKYJVHUVTWCZTOMXYRMMZBGGLMNGJNSXABSWOVOKNLIFCAGUILCEBJFMXXSZCZCDVEOXWQKNYVBOINKVXUWQVADHUHPUDZBPJXHEPTVCVGZBUHYCANLXGMMDLENTUZEANHNLTWSBCTFNRTUQRXIQGMYQOHUQHIIYQNIDKXSJSMQWEEHFJYBZPFSYMNVVZZRHWSSWTYJTCFULTXIRKUDKYNXKCITSBSCMHICFBZAYZSNVLOTIOCPILVTBIFIKMARHQTERZYNXFNWNOKGAKBMMAXNGCYCJOSLFBRHOOJANJPJMIYYFBFAMAFPSERJZWTHIEQFGPQGWRGZFZQBMMYPZVIQIIVDHPYDUIHTKUPYQAZSRUUIJZPNWEXZCLWQLGGGVDBMJGBVTLMYEHOTPSQKHJOSNUBGLZKXMIFJRPHOZIUHOA
+
+             Výstupní data [54 B / 54 B]
+
+            ml' nob:
+            Qapla'
+            bortaS bIr jablu'DI' reH QaQqu' nay'.
+
+             Reference [27 B / 27 B]
+
+            ml' nob:
+            bIjatlh 'e' yImev
+
+            Nesprávný výstup [Zpřístupnit nápovědu (134 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (133 B)]
+        Celkové hodnocení: 100.00 % (= 1.00 * 1.00)
+    Celkové procentní hodnocení: 100.00 %
+    Bonus za včasné odevzdání: 0.10
+    Celkem bodů: 1.00 * ( 1.00 + 0.10 ) = 1.10
+
+SW metriky:
