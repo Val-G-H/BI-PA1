@@ -5,6 +5,8 @@ Assignment:
 - číslo přečtené ze vstupu je mimo interval 0 až 8
 - Vstup typu 1.23 případně 1abcd není správný
 
+Refer to the [assignment details here](Assignment.txt)
+
 # Current solution
 
 1. Попробовать получить целое число, а потом один символ
@@ -21,6 +23,8 @@ Assignment:
 
 6. Показать цитату
 
+Refer to [implementation here](zahrivaci.c)
+
 # Alternative solution (UNDER DESIGN)
 
 - Мы получили первую группу (с числом)?
@@ -28,10 +32,12 @@ Assignment:
 	- Да - Это число нецелое?
 		- Да - ОШИБКА3 [bIjatlh 'e' yImev] // OI: А может надо и ОШИБКА1 [Neh mi'] если после числа что-то есть?
 		- Нет - Мы получили вторую группу и там не только перенос строкимы получили и третью группу? // OI: Возможно на третью группу надо ОШИБКА1 [Neh mi']?
-				- Да - ОШИБКА3 [bIjatlh 'e' yImev]
-				- Нет - Число в диапазоне от 0 до 8?				
-					- Нет - ОШИБКА2 [Qih mi' %D]
-					- Да - показать цитату
+			- Да - ОШИБКА3 [bIjatlh 'e' yImev]
+			- Нет - Число в диапазоне от 0 до 8?				
+				- Нет - ОШИБКА2 [Qih mi' %D]
+				- Да - показать цитату
+
+Refer to [implementation here](checker.c)
 
 Current output for the OIs:
 ```
@@ -57,9 +63,8 @@ bIjatlh 'e' yImev
 
 Use [online compiler](https://rextester.com/l/c_online_compiler_gcc)
 
-For the _gcc parameters_ set:
-'-Wall -pedantic'
+For the _gcc parameters_ set `-Wall -pedantic`
 
 # Reference materials
 
-For the C libraries, refer to [c++.com](https://cplusplus.com/reference/clibrary/)
+For the C libraries refer to [c++.com](https://cplusplus.com/reference/clibrary/)
