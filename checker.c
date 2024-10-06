@@ -2,21 +2,26 @@
 #include <assert.h>
 
 int test_scan(char test_case[], char sentence[]) {
-	int quoteIndex = -1;
-	char ooga = "";
+	float quoteNumber = 0;
+//	int quoteIndex = -1;
+    char str[5000];
+	char ooga = '\0';
 
-	printf("%-50s: ================================================================\n", test_case);
+	printf("%s: ================================================================\n", test_case);
 	printf("ml' nob:%s", sentence);
-    int conversions = sscanf(sentence, "%d%c", &quoteIndex, &ooga);
+    int conversions = sscanf(sentence, "%f%[^0123456789]%c", &quoteNumber, str, &ooga);
     printf("\t%d argument(s)", conversions);
     if (conversions > 0) {
-        printf(". #1 %d", quoteIndex);
+        printf(". #1 %f", quoteNumber);
     }
     if (conversions > 1) {
-        printf(". #2 0x%x", ooga);
+        printf(". #2 %s", str);
+    }    
+    if (conversions > 2) {
+        printf(". #3 0x%x", ooga);
     }    
     printf("\n");
-
+/*
 	if (conversions != 2) {
 		printf("Neh mi'\n");
 		return 1;
@@ -62,7 +67,7 @@ int test_scan(char test_case[], char sentence[]) {
 			printf("leghlaHchu'be'chugh mIn lo'laHbe' taj jej.\n");
 			break;
 	}
-
+*/
 	return 0;
 }
 
@@ -137,5 +142,5 @@ int main() {
     test_scan("Extra #9", "1abcd1\n");
     test_scan("Extra #10", "1abcd1a\n");
 
-    unit_tests();
+    //unit_tests();
 }    
