@@ -27,20 +27,20 @@ void print_dumper(const char *test_case, int conversions, float quoteNumber_f, c
 
 int test_scan(char *test_case, char *sentence) {
     float quoteNumber_f;
-    char str[MAX_LIMIT];
+    char str[MAX_LIMIT] = {0};
     char ooga = '\0';
     
     float intpart_f, fracpart_f;
     int intpart_i;
 
     printf("ml' nob:%s", sentence);
-    int conversions = sscanf(sentence, "%f%5000[^0123456789]%c", &quoteNumber_f, str, &ooga);
+    int conversions = sscanf(sentence, "%f %5000c", &quoteNumber_f, str, &ooga);
     // conversions can be -1 (EOF), 0 or up to the # of scanf variables, e.g. 3
     
     // there is no number
     if ((conversions == 0) || (conversions == EOF)) {
         printf("Neh mi'\n");
-        // print_dumper(test_case, conversions, quoteNumber_f, str, ooga);
+        print_dumper(test_case, conversions, quoteNumber_f, str, ooga);
         return 1;
     }
 
@@ -51,14 +51,14 @@ int test_scan(char *test_case, char *sentence) {
     // the number comes with a fractional part too
     if (fracpart_f != 0) {
         printf("bIjatlh 'e' yImev\n");
-        // print_dumper(test_case, conversions, quoteNumber_f, str, ooga);
+        print_dumper(test_case, conversions, quoteNumber_f, str, ooga);
         return 1;
     }
 
-    // the number is followed by something, and it is not a Linux new line delimeter (0x0a)
-    if (((conversions == 2) && (str[0] != 0x0a)) || (conversions == 3)) {
+    // the number is followed by something more
+    if (conversions == 2) {
         printf("bIjatlh 'e' yImev\n");
-        //print_dumper(test_case, conversions, quoteNumber_f, str, ooga);
+        print_dumper(test_case, conversions, quoteNumber_f, str, ooga);
         return 1;
     }
     
@@ -99,7 +99,7 @@ int test_scan(char *test_case, char *sentence) {
 			printf("leghlaHchu'be'chugh mIn lo'laHbe' taj jej.\n");
 			break;
 	}
-    
+    print_dumper(test_case, conversions, quoteNumber_f, str, ooga);    
     return 0;
 }
 
@@ -128,4 +128,9 @@ int main() {
     test_scan("Extra #8", "01abcd\n");
     test_scan("Extra #9", "1abcd1\n");
     test_scan("Extra #10", "1abcd1a\n");
+    
+    test_scan("Added Example #1", "1\n2\n");
+    test_scan("Added Example #2", "1 \n");
+    test_scan("Added Example #3", "1 ");
+    test_scan("Added Example #4", "1 2\n");    
 }    
