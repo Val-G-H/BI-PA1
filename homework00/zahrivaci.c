@@ -3,19 +3,17 @@
 
 #define MAX_LIMIT 5000
 
-int test_scan(char *sentence) {
-    float quoteNumber_f;
+int main() {
+	
+	float quoteNumber_f;
     char str[MAX_LIMIT] = {0};
-    char ooga = '\0';
     
     float intpart_f, fracpart_f;
     int intpart_i;
 
-    //printf("ml' nob:");
-    int conversions = sscanf(sentence, "%f %5000c", &quoteNumber_f, str, &ooga);
+    printf("ml' nob:\n");
+    int conversions = scanf("%f %5000c", &quoteNumber_f, str);
     // conversions can be -1 (EOF), 0 or up to the # of scanf variables, e.g. 3
-
-	printf("\n");
     
     // there is no number
     if ((conversions == 0) || (conversions == EOF)) {
@@ -76,13 +74,4 @@ int test_scan(char *sentence) {
 			break;
 	}
     return 0;
-}
-
-int main() {
-	char input[MAX_LIMIT] = {0};
-	printf("ml' nob:");
-	scanf("%s", input);
-	test_scan(input);
-
-    return 0;
-}
+}    
