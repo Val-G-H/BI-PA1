@@ -1,29 +1,52 @@
 #include <stdio.h>
+#include <math.h>
 
-int main() {
-	int quoteIndex;
-	char ooga;
+#define MAX_LIMIT 5000
 
-	printf("ml' nob:\n");
-	int conversions = scanf("%d%c", &quoteIndex, &ooga);
+int test_scan(char *sentence) {
+    float quoteNumber_f;
+    char str[MAX_LIMIT] = {0};
+    char ooga = '\0';
+    
+    float intpart_f, fracpart_f;
+    int intpart_i;
 
-	if (conversions != 2) {
-		printf("Neh mi'\n");
+    //printf("ml' nob:");
+    int conversions = sscanf(sentence, "%f %5000c", &quoteNumber_f, str, &ooga);
+    // conversions can be -1 (EOF), 0 or up to the # of scanf variables, e.g. 3
+
+	printf("\n");
+    
+    // there is no number
+    if ((conversions == 0) || (conversions == EOF)) {
+        printf("Neh mi'\n");
+        return 1;
+    }
+
+    // extract the integer part
+    fracpart_f = modff(quoteNumber_f, &intpart_f);
+    intpart_i = intpart_f;
+    
+    // the number comes with a fractional part too
+    if (fracpart_f != 0) {
+        printf("bIjatlh 'e' yImev\n");
+        return 1;
+    }
+
+    // the number is followed by something more
+    if (conversions == 2) {
+        printf("bIjatlh 'e' yImev\n");
+        return 1;
+    }
+    
+    // the number is outside of quotation range
+	if ((intpart_i < 0) || (intpart_i > 8)) {
+		printf("Qih mi' %d\n", intpart_i);
 		return 1;
 	}
-	if (ooga != '\n') {
-		printf("bIjatlh 'e' yImev\n");
-		return 1;
-	}
-	if (quoteIndex < 0 || quoteIndex > 8) {
-		printf("Qih mi' %d\n", quoteIndex);
-		return 1;
-	}
-
-
+    
 	printf("Qapla'\n");
-
-	switch (quoteIndex) {
+	switch (intpart_i) {
 		case 0:
 			printf("noH QapmeH wo' Qaw'lu'chugh yay chavbe'lu' 'ej wo' choqmeH may' DoHlu'chugh lujbe'lu'.\n");
 			break;
@@ -52,6 +75,14 @@ int main() {
 			printf("leghlaHchu'be'chugh mIn lo'laHbe' taj jej.\n");
 			break;
 	}
+    return 0;
+}
 
-	return 0;
+int main() {
+	char input[MAX_LIMIT] = {0};
+	printf("ml' nob:");
+	scanf("%s", input);
+	test_scan(input);
+
+    return 0;
 }

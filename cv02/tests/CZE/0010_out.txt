@@ -1,0 +1,7 @@
+Zadej delky stran:
+Obvod = 12
+Trojuhelnik je pravouhly.
+Zadej delky stran:
+Obvod = 9
+Trojuhelnik neni pravouhly.
+Zadej delky stran:
