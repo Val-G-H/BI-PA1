@@ -12,6 +12,8 @@ Use [online compiler](https://rextester.com/l/c_online_compiler_gcc)
 
 For the _gcc parameters_ set `-Wall -pedantic`
 
+Or build locally with `g++ -Wall -pedantic <filename>.c`
+
 ## Reference materials
 
 For the C libraries refer to [c++.com](https://cplusplus.com/reference/clibrary/)
