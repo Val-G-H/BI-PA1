@@ -1,3 +1,0 @@
-Zadej delky stran:
-Obvod = 9
-Trojuhelnik neni pravouhly.

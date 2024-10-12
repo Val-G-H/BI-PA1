@@ -1,2 +1,0 @@
-Zadej delky stran:
-Obvod = 9
