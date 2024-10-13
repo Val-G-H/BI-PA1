@@ -9,6 +9,7 @@ pain
 ## How to run
 
 Use [online compiler](https://rextester.com/l/c_online_compiler_gcc)
+UPDATE: switch to this [online compiler](https://rextester.com/l/cpp_online_compiler_gcc) if you find that sqrt is not defined, though math is included.
 
 For the _gcc parameters_ set `-Wall -pedantic`
 
