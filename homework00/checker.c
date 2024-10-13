@@ -3,7 +3,7 @@
 
 #define MAX_LIMIT 5000
 
-void print_dumper(const char *test_case, int conversions, float quoteNumber_f, char *str, char ooga) {
+void print_dumper(const char *test_case, int conversions, float quoteNumber_f, char *str) {
     printf("\t\t%s: ================================================================\n", test_case);
     printf("\t\t%s: %d argument(s)", test_case, conversions);
     if (conversions > 0) {
@@ -19,28 +19,24 @@ void print_dumper(const char *test_case, int conversions, float quoteNumber_f, c
         }
         */
     }
-    if (conversions > 2) {
-        printf(". #3 ASCII: %d", ooga);
-    }
     printf("\n");
 }
 
 int test_scan(char *test_case, char *sentence) {
     float quoteNumber_f;
     char str[MAX_LIMIT] = {0};
-    char ooga = '\0';
     
     float intpart_f, fracpart_f;
     int intpart_i;
 
     printf("ml' nob:%s", sentence);
-    int conversions = sscanf(sentence, "%f %5000c", &quoteNumber_f, str, &ooga);
+    int conversions = sscanf(sentence, "%f %5000c", &quoteNumber_f, str);
     // conversions can be -1 (EOF), 0 or up to the # of scanf variables, e.g. 3
     
     // there is no number
     if ((conversions == 0) || (conversions == EOF)) {
         printf("Neh mi'\n");
-        print_dumper(test_case, conversions, quoteNumber_f, str, ooga);
+        print_dumper(test_case, conversions, quoteNumber_f, str);
         return 1;
     }
 
@@ -51,21 +47,21 @@ int test_scan(char *test_case, char *sentence) {
     // the number comes with a fractional part too
     if (fracpart_f != 0) {
         printf("bIjatlh 'e' yImev\n");
-        print_dumper(test_case, conversions, quoteNumber_f, str, ooga);
+        print_dumper(test_case, conversions, quoteNumber_f, str);
         return 1;
     }
 
     // the number is followed by something more
     if (conversions == 2) {
         printf("bIjatlh 'e' yImev\n");
-        print_dumper(test_case, conversions, quoteNumber_f, str, ooga);
+        print_dumper(test_case, conversions, quoteNumber_f, str);
         return 1;
     }
     
     // the number is outside of quotation range
 	if ((intpart_i < 0) || (intpart_i > 8)) {
 		printf("Qih mi' %d\n", intpart_i);
-        print_dumper(test_case, conversions, quoteNumber_f, str, ooga);
+        print_dumper(test_case, conversions, quoteNumber_f, str);
 		return 1;
 	}
     
@@ -99,7 +95,7 @@ int test_scan(char *test_case, char *sentence) {
 			printf("leghlaHchu'be'chugh mIn lo'laHbe' taj jej.\n");
 			break;
 	}
-    print_dumper(test_case, conversions, quoteNumber_f, str, ooga);    
+    print_dumper(test_case, conversions, quoteNumber_f, str);    
     return 0;
 }
 
