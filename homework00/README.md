@@ -13,11 +13,13 @@ Refer to the [assignment details here](Assignment.txt)
 	- Нет - ОШИБКА1 [Neh mi']
 	- Да - Это число нецелое?
 		- Да - ОШИБКА3 [bIjatlh 'e' yImev]
-		- Нет - Мы получили вторую группу?
+		- Нет - Оно вне пределов long int?
 			- Да - ОШИБКА3 [bIjatlh 'e' yImev]
-			- Нет - Число в диапазоне от 0 до 8?				
-				- Нет - ОШИБКА2 [Qih mi' %D]
-				- Да - показать цитату
+			- Нет - Мы получили вторую группу?
+				- Да - ОШИБКА3 [bIjatlh 'e' yImev]
+				- Нет - Число в диапазоне от 0 до 8?				
+					- Нет - ОШИБКА2 [Qih mi' %D]
+					- Да - показать цитату
 
 Refer to implemented [checker here](checker.c) and [final program here](zahrivaci.c)
 
@@ -25,128 +27,270 @@ Refer to implemented [checker here](checker.c) and [final program here](zahrivac
 
 Checker's output:
 ```
-ml' nob:0
+Input: [0
+]
+Output:
 Qapla'
 noH QapmeH wo' Qaw'lu'chugh yay chavbe'lu' 'ej wo' choqmeH may' DoHlu'chugh lujbe'lu'.
-		0: ================================================================
-		0: 1 argument(s). #1 0.000000
-ml' nob:1
+			Case 0: ================================================================
+			Case 0: Scanned 1 argument(s). #1 0.000000
+			Case 0: ================================================================
+Input: [1
+]
+Output:
 Qapla'
 bortaS bIr jablu'DI' reH QaQqu' nay'.
-		1: ================================================================
-		1: 1 argument(s). #1 1.000000
-ml' nob:007
+			Case 1: ================================================================
+			Case 1: Scanned 1 argument(s). #1 1.000000
+			Case 1: ================================================================
+Input: [007
+]
+Output:
 Qapla'
 Heghlu'meH QaQ jajvam.
-		7: ================================================================
-		7: 1 argument(s). #1 7.000000
-ml' nob:           8
+			Case 7: ================================================================
+			Case 7: Scanned 1 argument(s). #1 7.000000
+			Case 7: ================================================================
+Input: [           8
+]
+Output:
 Qapla'
 leghlaHchu'be'chugh mIn lo'laHbe' taj jej.
-		8: ================================================================
-		8: 1 argument(s). #1 8.000000
-ml' nob:29
+			Case 8: ================================================================
+			Case 8: Scanned 1 argument(s). #1 8.000000
+			Case 8: ================================================================
+Input: [29
+]
+Output:
 Qih mi' 29
-		9: ================================================================
-		9: 1 argument(s). #1 29.000000
-ml' nob:-5
+			Case 9: ================================================================
+			Case 9: Scanned 1 argument(s). #1 29.000000
+			Case 9: ================================================================
+Input: [-5
+]
+Output:
 Qih mi' -5
-		10: ================================================================
-		10: 1 argument(s). #1 -5.000000
-ml' nob:abc
+			Case 10: ================================================================
+			Case 10: Scanned 1 argument(s). #1 -5.000000
+			Case 10: ================================================================
+Input: [abc
+]
+Output:
 Neh mi'
-		11: ================================================================
-		11: 0 argument(s)
-ml' nob:1.23
+			Case 11: ================================================================
+			Case 11: Scanned 0 argument(s)
+			Case 11: ================================================================
+Input: [1.23
+]
+Output:
 bIjatlh 'e' yImev
-		12: ================================================================
-		12: 1 argument(s). #1 1.230000
-ml' nob:1abcd
+			Case 12: ================================================================
+			Case 12: Scanned 1 argument(s). #1 1.230000
+			Case 12: ================================================================
+Input: [1abcd
+]
+Output:
 bIjatlh 'e' yImev
-		13: ================================================================
-		13: 2 argument(s). #1 1.000000. #2 'abcd
-'
-ml' nob:8J
+			Case 13: ================================================================
+			Case 13: Scanned 2 argument(s). #1 1.000000. #2 'abcd'
+			Case 13: ================================================================
+Input: [8J
+]
+Output:
 bIjatlh 'e' yImev
-		14: ================================================================
-		14: 2 argument(s). #1 8.000000. #2 'J
-'
-ml' nob:1NZKXTDTSUPFZFYOWRQDFORKUPXYANRSHCWRFTASUTHNMMCSAMOWCMOKBOFGJDABPVCLGFCCXLJKZMMYMTKQFEBYHHFXMPFQIQIYNFHLARXEHWDHMJQRRBRITEOVPYUBMISJXGKJLSFQQTFPOMSWTWQZQPMGCNKQXOXPPYJKWXCHIBVNZCQKTAVAOPMOKWHNQJPLERBHKUZENABZXYGOCJKZMSPJMDITRTPHODOAFPMGUJMZCVGMKOHEMDTZEUISUDEHOEEXVOTEGKINDPJMUSGJCKUFFMFEIUJWTRXYRMKZVWKGKPIJJNKERUUIJAXCNYFNCYNIEWCWVTQHJEXQVBRTCOSLUALYACYJJAGKKSLWCRLKBJMNHTVCODKDTHASXWNYOKVMAOIYMQTOFOFLEYWSWPCNTQQHVDQGKUJOVKUSNSOZCPLGKZNAKOEGTIFXARIQMGUGWYMLOPHFZUFJOMETCGJJPGBSSYWPJJLHUDBCQEZAVDGAJPHOUTKVDGWHBSMSTWVVQSXKTNXJFSZXIZRIMSUADQEQIPKALYNHSYNYSABSGDYVLCPSLGHWXTCXIKIWDRUJWWRIOJITMIKOZYXLTYNTVKRJMNNILMTDJFEJKBFRCIGZULMVSMDPNVPSUWKSJBBTMWZLBDKOEADEIADEAEGDZFMARKQYAIHXSNLSSMAFWPTBFUSBOYEPGSEIQQQTELSXUGSNVAKIXKUSOJPUCSWSEIEXUWUBSRVUTNAVXWUFDTIGYOKTLPHWTYWYHTVDWMEXSJMSFYOMAZMUZKESOBNSFKQEIBDNRSEHCRTTXCFQIOMPSPQGEOCACSBPNFFFZOZVFIVUSFYLDPNDMMDBKFTZAJYOMTVOORIFLOCJAVEELAMVJPMDYBNGZQJNYOLADUTLWGMOTJLVIMIOVELISEEHZXNLXISDIFLHIZQPPYFCCWGMFYGJWOEYWMVWPOQZIWPJATISSNGEHKPZQLWHVUYZMULIIOACVFLZKYXTGLULCJRXZRXUOJKVZMKU
+			Case 14: ================================================================
+			Case 14: Scanned 2 argument(s). #1 8.000000. #2 'J'
+			Case 14: ================================================================
+Input: [1NZKXTDTSUPFZFYOWRQDFORKUPXYANRSHCWRFTASUTHNMMCSAMOWCMOKBOFGJDABPVCLGFCCXLJKZMMYMTKQFEBYHHFXMPFQIQIYNFHLARXEHWDHMJQRRBRITEOVPYUBMISJXGKJLSFQQTFPOMSWTWQZQPMGCNKQXOXPPYJKWXCHIBVNZCQKTAVAOPMOKWHNQJPLERBHKUZENABZXYGOCJKZMSPJMDITRTPHODOAFPMGUJMZCVGMKOHEMDTZEUISUDEHOEEXVOTEGKINDPJMUSGJCKUFFMFEIUJWTRXYRMKZVWKGKPIJJNKERUUIJAXCNYFNCYNIEWCWVTQHJEXQVBRTCOSLUALYACYJJAGKKSLWCRLKBJMNHTVCODKDTHASXWNYOKVMAOIYMQTOFOFLEYWSWPCNTQQHVDQGKUJOVKUSNSOZCPLGKZNAKOEGTIFXARIQMGUGWYMLOPHFZUFJOMETCGJJPGBSSYWPJJLHUDBCQEZAVDGAJPHOUTKVDGWHBSMSTWVVQSXKTNXJFSZXIZRIMSUADQEQIPKALYNHSYNYSABSGDYVLCPSLGHWXTCXIKIWDRUJWWRIOJITMIKOZYXLTYNTVKRJMNNILMTDJFEJKBFRCIGZULMVSMDPNVPSUWKSJBBTMWZLBDKOEADEIADEAEGDZFMARKQYAIHXSNLSSMAFWPTBFUSBOYEPGSEIQQQTELSXUGSNVAKIXKUSOJPUCSWSEIEXUWUBSRVUTNAVXWUFDTIGYOKTLPHWTYWYHTVDWMEXSJMSFYOMAZMUZKESOBNSFKQEIBDNRSEHCRTTXCFQIOMPSPQGEOCACSBPNFFFZOZVFIVUSFYLDPNDMMDBKFTZAJYOMTVOORIFLOCJAVEELAMVJPMDYBNGZQJNYOLADUTLWGMOTJLVIMIOVELISEEHZXNLXISDIFLHIZQPPYFCCWGMFYGJWOEYWMVWPOQZIWPJATISSNGEHKPZQLWHVUYZMULIIOACVFLZKYXTGLULCJRXZRXUOJKVZMKU
+]
+Output:
 bIjatlh 'e' yImev
-		15: ================================================================
-		15: 2 argument(s). #1 1.000000. #2 'NZKXTDTSUPFZFYOWRQDFORKUPXYANRSHCWRFTASUTHNMMCSAMOWCMOKBOFGJDABPVCLGFCCXLJKZMMYMTKQFEBYHHFXMPFQIQIYNFHLARXEHWDHMJQRRBRITEOVPYUBMISJXGKJLSFQQTFPOMSWTWQZQPMGCNKQXOXPPYJKWXCHIBVNZCQKTAVAOPMOKWHNQJPLERBHKUZENABZXYGOCJKZMSPJMDITRTPHODOAFPMGUJMZCVGMKOHEMDTZEUISUDEHOEEXVOTEGKINDPJMUSGJCKUFFMFEIUJWTRXYRMKZVWKGKPIJJNKERUUIJAXCNYFNCYNIEWCWVTQHJEXQVBRTCOSLUALYACYJJAGKKSLWCRLKBJMNHTVCODKDTHASXWNYOKVMAOIYMQTOFOFLEYWSWPCNTQQHVDQGKUJOVKUSNSOZCPLGKZNAKOEGTIFXARIQMGUGWYMLOPHFZUFJOMETCGJJPGBSSYWPJJLHUDBCQEZAVDGAJPHOUTKVDGWHBSMSTWVVQSXKTNXJFSZXIZRIMSUADQEQIPKALYNHSYNYSABSGDYVLCPSLGHWXTCXIKIWDRUJWWRIOJITMIKOZYXLTYNTVKRJMNNILMTDJFEJKBFRCIGZULMVSMDPNVPSUWKSJBBTMWZLBDKOEADEIADEAEGDZFMARKQYAIHXSNLSSMAFWPTBFUSBOYEPGSEIQQQTELSXUGSNVAKIXKUSOJPUCSWSEIEXUWUBSRVUTNAVXWUFDTIGYOKTLPHWTYWYHTVDWMEXSJMSFYOMAZMUZKESOBNSFKQEIBDNRSEHCRTTXCFQIOMPSPQGEOCACSBPNFFFZOZVFIVUSFYLDPNDMMDBKFTZAJYOMTVOORIFLOCJAVEELAMVJPMDYBNGZQJNYOLADUTLWGMOTJLVIMIOVELISEEHZXNLXISDIFLHIZQPPYFCCWGMFYGJWOEYWMVWPOQZIWPJATISSNGEHKPZQLWHVUYZMULIIOACVFLZKYXTGLULCJRXZRXUOJKVZMKU
-'
-ml' nob:-1.23
+			Case 15: ================================================================
+			Case 15: Scanned 2 argument(s). #1 1.000000. #2 'NZKXTDTSUPFZFYOWRQDFORKUPXYANRSHCWRFTASUTHNMMCSAMOWCMOKBOFGJDABPVCLGFCCXLJKZMMYMTKQFEBYHHFXMPFQIQIYNFHLARXEHWDHMJQRRBRITEOVPYUBMISJXGKJLSFQQTFPOMSWTWQZQPMGCNKQXOXPPYJKWXCHIBVNZCQKTAVAOPMOKWHNQJPLERBHKUZENABZXYGOCJKZMSPJMDITRTPHODOAFPMGUJMZCVGMKOHEMDTZEUISUDEHOEEXVOTEGKINDPJMUSGJCKUFFMFEIUJWTRXYRMKZVWKGKPIJJNKERUUIJAXCNYFNCYNIEWCWVTQHJEXQVBRTCOSLUALYACYJJAGKKSLWCRLKBJMNHTVCODKDTHASXWNYOKVMAOIYMQTOFOFLEYWSWPCNTQQHVDQGKUJOVKUSNSOZCPLGKZNAKOEGTIFXARIQMGUGWYMLOPHFZUFJOMETCGJJPGBSSYWPJJLHUDBCQEZAVDGAJPHOUTKVDGWHBSMSTWVVQSXKTNXJFSZXIZRIMSUADQEQIPKALYNHSYNYSABSGDYVLCPSLGHWXTCXIKIWDRUJWWRIOJITMIKOZYXLTYNTVKRJMNNILMTDJFEJKBFRCIGZULMVSMDPNVPSUWKSJBBTMWZLBDKOEADEIADEAEGDZFMARKQYAIHXSNLSSMAFWPTBFUSBOYEPGSEIQQQTELSXUGSNVAKIXKUSOJPUCSWSEIEXUWUBSRVUTNAVXWUFDTIGYOKTLPHWTYWYHTVDWMEXSJMSFYOMAZMUZKESOBNSFKQEIBDNRSEHCRTTXCFQIOMPSPQGEOCACSBPNFFFZOZVFIVUSFYLDPNDMMDBKFTZAJYOMTVOORIFLOCJAVEELAMVJPMDYBNGZQJNYOLADUTLWGMOTJLVIMIOVELISEEHZXNLXISDIFLHIZQPPYFCCWGMFYGJWOEYWMVWPOQZIWPJATISSNGEHKPZQLWHVUYZMULIIOACVFLZKYXTGLULCJRXZRXUOJKVZMKU'
+			Case 15: ================================================================
+Input: [-1.23
+]
+Output:
 bIjatlh 'e' yImev
-		Extra #0: ================================================================
-		Extra #0: 1 argument(s). #1 -1.230000
-ml' nob:1.a
+			Case Bonus #1.1: ================================================================
+			Case Bonus #1.1: Scanned 1 argument(s). #1 -1.230000
+			Case Bonus #1.1: ================================================================
+Input: [1.a
+]
+Output:
 bIjatlh 'e' yImev
-		Extra #1: ================================================================
-		Extra #1: 2 argument(s). #1 1.000000. #2 'a
-'
-ml' nob:a1
+			Case Bonus #1.2: ================================================================
+			Case Bonus #1.2: Scanned 2 argument(s). #1 1.000000. #2 'a'
+			Case Bonus #1.2: ================================================================
+Input: [a1
+]
+Output:
 Neh mi'
-		Extra #2: ================================================================
-		Extra #2: 0 argument(s)
-ml' nob:1.23a
+			Case Bonus #1.3: ================================================================
+			Case Bonus #1.3: Scanned 0 argument(s)
+			Case Bonus #1.3: ================================================================
+Input: [1.23a
+]
+Output:
 bIjatlh 'e' yImev
-		Extra #3: ================================================================
-		Extra #3: 2 argument(s). #1 1.230000. #2 'a
-'
-ml' nob:1.23ab
+			Case Bonus #1.4: ================================================================
+			Case Bonus #1.4: Scanned 2 argument(s). #1 1.230000. #2 'a'
+			Case Bonus #1.4: ================================================================
+Input: [1.23ab
+]
+Output:
 bIjatlh 'e' yImev
-		Extra #4: ================================================================
-		Extra #4: 2 argument(s). #1 1.230000. #2 'ab
-'
-ml' nob:1.23a4.56
+			Case Bonus #1.5: ================================================================
+			Case Bonus #1.5: Scanned 2 argument(s). #1 1.230000. #2 'ab'
+			Case Bonus #1.5: ================================================================
+Input: [1.23a4.56
+]
+Output:
 bIjatlh 'e' yImev
-		Extra #5: ================================================================
-		Extra #5: 2 argument(s). #1 1.230000. #2 'a4.56
-'
-ml' nob:1abcd
+			Case Bonus #1.6: ================================================================
+			Case Bonus #1.6: Scanned 2 argument(s). #1 1.230000. #2 'a4.56'
+			Case Bonus #1.6: ================================================================
+Input: [-1abcd
+]
+Output:
 bIjatlh 'e' yImev
-		Extra #6: ================================================================
-		Extra #6: 2 argument(s). #1 1.000000. #2 'abcd
-'
-ml' nob:-1abcd
+			Case Bonus #2.1: ================================================================
+			Case Bonus #2.1: Scanned 2 argument(s). #1 -1.000000. #2 'abcd'
+			Case Bonus #2.1: ================================================================
+Input: [01abcd
+]
+Output:
 bIjatlh 'e' yImev
-		Extra #7: ================================================================
-		Extra #7: 2 argument(s). #1 -1.000000. #2 'abcd
-'
-ml' nob:01abcd
+			Case Bonus #2.2: ================================================================
+			Case Bonus #2.2: Scanned 2 argument(s). #1 1.000000. #2 'abcd'
+			Case Bonus #2.2: ================================================================
+Input: [1abcd1
+]
+Output:
 bIjatlh 'e' yImev
-		Extra #8: ================================================================
-		Extra #8: 2 argument(s). #1 1.000000. #2 'abcd
-'
-ml' nob:1abcd1
+			Case Bonus #2.2: ================================================================
+			Case Bonus #2.2: Scanned 2 argument(s). #1 1.000000. #2 'abcd1'
+			Case Bonus #2.2: ================================================================
+Input: [1abcd1a
+]
+Output:
 bIjatlh 'e' yImev
-		Extra #9: ================================================================
-		Extra #9: 2 argument(s). #1 1.000000. #2 'abcd1
-'
-ml' nob:1abcd1a
-bIjatlh 'e' yImev
-		Extra #10: ================================================================
-		Extra #10: 2 argument(s). #1 1.000000. #2 'abcd1a
-'
-ml' nob:1
+			Case Bonus #2.3: ================================================================
+			Case Bonus #2.3: Scanned 2 argument(s). #1 1.000000. #2 'abcd1a'
+			Case Bonus #2.3: ================================================================
+Input: [1
 2
+]
+Output:
 bIjatlh 'e' yImev
-		Added Example #1: ================================================================
-		Added Example #1: 2 argument(s). #1 1.000000. #2 '2
-'
-ml' nob:1 
+			Case Clarified #3.1: ================================================================
+			Case Clarified #3.1: Scanned 2 argument(s). #1 1.000000. #2 '2'
+			Case Clarified #3.1: ================================================================
+Input: [1 
+]
+Output:
 Qapla'
 bortaS bIr jablu'DI' reH QaQqu' nay'.
-		Added Example #2: ================================================================
-		Added Example #2: 1 argument(s). #1 1.000000
-ml' nob:1 Qapla'
+			Case Clarified #3.2: ================================================================
+			Case Clarified #3.2: Scanned 1 argument(s). #1 1.000000
+			Case Clarified #3.2: ================================================================
+Input: [1 ]
+Output:
+Qapla'
 bortaS bIr jablu'DI' reH QaQqu' nay'.
-		Added Example #3: ================================================================
-		Added Example #3: 1 argument(s). #1 1.000000
-ml' nob:1 2
+			Case Clarified #3.3: ================================================================
+			Case Clarified #3.3: Scanned 1 argument(s). #1 1.000000
+			Case Clarified #3.3: ================================================================
+Input: [1 2
+]
+Output:
 bIjatlh 'e' yImev
-		Added Example #4: ================================================================
-		Added Example #4: 2 argument(s). #1 1.000000. #2 '2
-'
+			Case Clarified #3.4: ================================================================
+			Case Clarified #3.4: Scanned 2 argument(s). #1 1.000000. #2 '2'
+			Case Clarified #3.4: ================================================================
+Input: [
+
+
+1]
+Output:
+Qapla'
+bortaS bIr jablu'DI' reH QaQqu' nay'.
+			Case Extra #4.1: ================================================================
+			Case Extra #4.1: Scanned 1 argument(s). #1 1.000000
+			Case Extra #4.1: ================================================================
+Input: [
+1
+2
+]
+Output:
+bIjatlh 'e' yImev
+			Case Extra #4.2: ================================================================
+			Case Extra #4.2: Scanned 2 argument(s). #1 1.000000. #2 '2'
+			Case Extra #4.2: ================================================================
+Input: [
+
+
+]
+Output:
+Neh mi'
+			Case Extra #4.3: ================================================================
+			Case Extra #4.3: Scanned -1 argument(s)
+			Case Extra #4.3: ================================================================
+Input: [99999999999999999999999999999999999999
+]
+Output:
+bIjatlh 'e' yImev
+			Case Extra #4.4: ================================================================
+			Case Extra #4.4: Scanned 1 argument(s). #1 99999999999999997748809823456034029568.000000
+			Case Extra #4.4: ================================================================
+Input: [99999999999999999999999999999999999999J
+]
+Output:
+bIjatlh 'e' yImev
+			Case Extra #4.5: ================================================================
+			Case Extra #4.5: Scanned 2 argument(s). #1 99999999999999997748809823456034029568.000000. #2 'J'
+			Case Extra #4.5: ================================================================
+Input: [0.
+]
+Output:
+Qapla'
+noH QapmeH wo' Qaw'lu'chugh yay chavbe'lu' 'ej wo' choqmeH may' DoHlu'chugh lujbe'lu'.
+			Case Extra #4.7: ================================================================
+			Case Extra #4.7: Scanned 1 argument(s). #1 0.000000
+			Case Extra #4.7: ================================================================
+Input: [0.1
+]
+Output:
+bIjatlh 'e' yImev
+			Case Extra #4.8: ================================================================
+			Case Extra #4.8: Scanned 1 argument(s). #1 0.100000
+			Case Extra #4.8: ================================================================
+Input: [0,1
+]
+Output:
+bIjatlh 'e' yImev
+			Case Extra #4.9: ================================================================
+			Case Extra #4.9: Scanned 2 argument(s). #1 0.000000. #2 ',1'
+			Case Extra #4.9: ================================================================
+Input: [0xa
+]
+Output:
+Qih mi' 10
+			Case Extra #4.10: ================================================================
+			Case Extra #4.10: Scanned 1 argument(s). #1 10.000000
+			Case Extra #4.10: ================================================================
+Input: [.
+]
+Output:
+Neh mi'
+			Case Extra #4.11: ================================================================
+			Case Extra #4.11: Scanned 0 argument(s)
+			Case Extra #4.11: ================================================================
+Input: [. 
+]
+Output:
+Neh mi'
+			Case Extra #4.11: ================================================================
+			Case Extra #4.11: Scanned 0 argument(s)
+			Case Extra #4.11: ================================================================
 ```
