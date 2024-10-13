@@ -7,25 +7,7 @@ Assignment:
 
 Refer to the [assignment details here](Assignment.txt)
 
-# Current solution
-
-1. Попробовать получить целое число, а потом один символ
-2. Запомнить сколько получили
- 
-3. Получили не два?
-	- ОШИБКА1 [Neh mi']
-
-4. _следующий после числа_ символ не перенос строки?
-	- ОШИБКА3 [bIjatlh 'e' yImev]
-
-5. Целое число вне диапазона?
-	- ОШИБКА2 [Qih mi' %D]
-
-6. Показать цитату
-
-Refer to [implementation here](zahrivaci.c)
-
-# Alternative solution (UNDER DESIGN)
+# Solution
 
 - Мы получили первую группу (с числом)?
 	- Нет - ОШИБКА1 [Neh mi']
@@ -37,9 +19,11 @@ Refer to [implementation here](zahrivaci.c)
 				- Нет - ОШИБКА2 [Qih mi' %D]
 				- Да - показать цитату
 
-Refer to [implementation here](checker.c)
+Refer to implemented [checker here](checker.c) and [final program here](zahrivaci.c)
 
-Current output:
+# Tests
+
+Checker's output:
 ```
 ml' nob:0
 Qapla'
