@@ -45,7 +45,7 @@ A'[x, y] = C[x, y] + B[x, y] - A[x, y]
 
 8. Проверка: сравнить две касающиеся стороны из каждой новой фигуры. Если они равны, то во всей фигуре равные стороны.
 
-Дополнительные материалы о сравнение double:
+Дополнительные материалы о сравнении double:
 - [IEEE Standard 754 Floating Point Numbers](https://steve.hollasch.net/cgindex/coding/ieeefloat.html)
 - [Comparing floating point numbers](https://randomascii.wordpress.com/2012/02/25/comparing-floating-point-numbers-2012-edition/)
 
