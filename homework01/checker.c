@@ -4,22 +4,24 @@
 #include <stdbool.h>
 #include <string.h>
 
-int eq(double left, double right)
-{
-    //return fabs(left - right) <= DBL_EPSILON * 100 * (fabs(left) + fabs(right));
-    return fabs(left - right) <= 1e-10;
-}
-
 struct Point {
     double x, y;
 };
+
+bool eq(double left, double right) {
+    double epsilon = DBL_EPSILON * fmax(fabs(left), fabs(right));
+    if (fabs(left - right) != 0) {
+        printf("%.16lf <= %.16lf (%.16lf * %.16lf): %d\n", fabs(left - right), epsilon, DBL_EPSILON, fmax(fabs(left), fabs(right)), fabs(left - right) <= epsilon ? 1 : 0);        
+    }
+    return fabs(left - right) <= epsilon;
+}
 
 double vectorDotProduct(struct Point a, struct Point b, struct Point c, struct Point d) {
     return (b.x - a.x) * (b.y - a.y) + (d.x - c.x) * (d.y - c.y);
 }
 
 double vectorLength(struct Point a, struct Point b) {
-    return sqrt( (b.x - a.x)*(b.x - a.x) + (b.y - a.y)*(b.y - a.y) );
+    return sqrt( (b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y) );
 }
 
 int test_scan(char *test_case, char *bodA, char *bodB, char *bodC, char *notification, char *bodAn, char *bodBn, char *bodCn) {
@@ -33,7 +35,7 @@ int test_scan(char *test_case, char *bodA, char *bodB, char *bodC, char *notific
     int conversions = sscanf(bodA," [ %lf , %lf %c", &(a.x), &(a.y), &closingBracket);
     if (conversions != 3) {
         if (strlen(notification) != 0) {
-            printf("%s - expected\n", notification);
+            printf("%s - expected\n", notification);            
         }    
         printf("Nespravny vstup.\n");
         return 1;
