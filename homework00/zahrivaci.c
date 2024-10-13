@@ -1,50 +1,58 @@
 #include <stdio.h>
 #include <math.h>
+#include <ctype.h>
+#include <limits.h>
 
 #define MAX_LIMIT 5000
 
 int main() {
-	
-	float quoteNumber_f;
+	long long int quoteNumber;
     char str[MAX_LIMIT] = {0};
-    
-    float intpart_f, fracpart_f;
-    int intpart_i;
 
-    printf("ml' nob:\n");
-    int conversions = scanf("%f %5000c", &quoteNumber_f, str);
+	printf("ml' nob:\n");
+
+    char format[100];
+    sprintf(format, "%%lld%%%ds", MAX_LIMIT - 1); // to leave space for the null terminator in the str array
+    int conversions = scanf(format, &quoteNumber, str);
     // conversions can be -1 (EOF), 0 or up to the # of scanf variables, e.g. 3
-    
+
     // there is no number
     if ((conversions == 0) || (conversions == EOF)) {
         printf("Neh mi'\n");
         return 1;
     }
 
-    // extract the integer part
-    fracpart_f = modff(quoteNumber_f, &intpart_f);
-    intpart_i = intpart_f;
-    
-    // the number comes with a fractional part too
-    if (fracpart_f != 0) {
+    // the number is followed by something more
+    if (conversions == 2) {
+        char c;
+        int i=0;
+        while (str[i])
+        {
+            c=str[i];
+            // is it only of whitespaces only?
+            if (isspace(c)) {
+                i++;
+            } else {
+                printf("bIjatlh 'e' yImev\n");
+                return 1;
+            }
+        }
+    }
+
+    // the number exceeds the limit
+    if ((quoteNumber == LLONG_MIN) || (quoteNumber == LLONG_MAX)) {
         printf("bIjatlh 'e' yImev\n");
         return 1;
     }
 
-    // the number is followed by something more
-    if (conversions == 2) {
-        printf("bIjatlh 'e' yImev\n");
-        return 1;
-    }
-    
     // the number is outside of quotation range
-	if ((intpart_i < 0) || (intpart_i > 8)) {
-		printf("Qih mi' %d\n", intpart_i);
+	if ((quoteNumber < 0) || (quoteNumber > 8)) {
+		printf("Qih mi' %lld\n", quoteNumber);
 		return 1;
 	}
     
 	printf("Qapla'\n");
-	switch (intpart_i) {
+	switch (quoteNumber) {
 		case 0:
 			printf("noH QapmeH wo' Qaw'lu'chugh yay chavbe'lu' 'ej wo' choqmeH may' DoHlu'chugh lujbe'lu'.\n");
 			break;
@@ -74,4 +82,4 @@ int main() {
 			break;
 	}
     return 0;
-}    
+}
