@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include <math.h>
+#include <ctype.h>
 #include <limits.h>
 
 #define MAX_LIMIT 5000
 
-void print_dumper(const char *test_case, int conversions, double quoteNumber_d, char *str) {
+void print_dumper(const char *test_case, int conversions, long long int quoteNumber, char *str) {
     printf("\t\t\tCase %s: ================================================================\n", test_case);
     printf("\t\t\tCase %s: Scanned %d argument(s)", test_case, conversions);
     if (conversions > 0) {
-        printf(". #1 %lf", quoteNumber_d);
+        printf(". #1 %lld", quoteNumber);
     }
     if (conversions > 1) {
         printf(". #2 '%s'", str);
@@ -24,61 +25,57 @@ void print_dumper(const char *test_case, int conversions, double quoteNumber_d, 
 }
 
 int test_scan(char *test_case, char *sentence) {
-    double quoteNumber_d;
+    long long int quoteNumber;
     char str[MAX_LIMIT] = {0};
     
-    double intpart_d, fracpart_d;
-    long long int intpart_lli;
-
-
     printf("Input: [%s]\nOutput:\n", sentence);
 
     char format[100];
-    sprintf(format, "%%lf %%%ds", MAX_LIMIT - 1); // to leave space for the null terminator in the str array
-    int conversions = sscanf(sentence, format, &quoteNumber_d, str);
+    sprintf(format, "%%lld%%%ds", MAX_LIMIT - 1); // to leave space for the null terminator in the str array
+    int conversions = sscanf(sentence, format, &quoteNumber, str);
     // conversions can be -1 (EOF), 0 or up to the # of scanf variables, e.g. 3
 
     // there is no number
     if ((conversions == 0) || (conversions == EOF)) {
         printf("Neh mi'\n");
-        print_dumper(test_case, conversions, quoteNumber_d, str);
-        return 1;
-    }
-
-    // extract the integer part
-    fracpart_d = modf(quoteNumber_d, &intpart_d);
-    intpart_lli = intpart_d;
-
-    // the number exceeds the limit
-    if ((intpart_lli == LLONG_MIN) || (intpart_lli == LLONG_MAX)) {
-        printf("bIjatlh 'e' yImev\n");
-        print_dumper(test_case, conversions, quoteNumber_d, str);
-        return 1;
-    }
-
-    // the number comes with a fractional part too
-    if (fracpart_d != 0) {
-        printf("bIjatlh 'e' yImev\n");
-        print_dumper(test_case, conversions, quoteNumber_d, str);
+        print_dumper(test_case, conversions, quoteNumber, str);
         return 1;
     }
 
     // the number is followed by something more
     if (conversions == 2) {
+        char c;
+        int i=0;
+        while (str[i])
+        {
+            c=str[i];
+            // is it only of whitespaces only?
+            if (isspace(c)) {
+                i++;
+            } else {
+                printf("bIjatlh 'e' yImev\n");
+                print_dumper(test_case, conversions, quoteNumber, str);
+                return 1;
+            }
+        }
+    }
+
+    // the number exceeds the limit
+    if ((quoteNumber == LLONG_MIN) || (quoteNumber == LLONG_MAX)) {
         printf("bIjatlh 'e' yImev\n");
-        print_dumper(test_case, conversions, quoteNumber_d, str);
+        print_dumper(test_case, conversions, quoteNumber, str);
         return 1;
     }
-    
+
     // the number is outside of quotation range
-	if ((intpart_lli < 0) || (intpart_lli > 8)) {
-		printf("Qih mi' %lld\n", intpart_lli);
-        print_dumper(test_case, conversions, quoteNumber_d, str);
+	if ((quoteNumber < 0) || (quoteNumber > 8)) {
+		printf("Qih mi' %lld\n", quoteNumber);
+        print_dumper(test_case, conversions, quoteNumber, str);
 		return 1;
 	}
     
 	printf("Qapla'\n");
-	switch (intpart_lli) {
+	switch (quoteNumber) {
 		case 0:
 			printf("noH QapmeH wo' Qaw'lu'chugh yay chavbe'lu' 'ej wo' choqmeH may' DoHlu'chugh lujbe'lu'.\n");
 			break;
@@ -107,7 +104,7 @@ int test_scan(char *test_case, char *sentence) {
 			printf("leghlaHchu'be'chugh mIn lo'laHbe' taj jej.\n");
 			break;
 	}
-    print_dumper(test_case, conversions, quoteNumber_d, str);    
+    print_dumper(test_case, conversions, quoteNumber, str);    
     return 0;
 }
 
