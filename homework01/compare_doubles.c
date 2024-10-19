@@ -119,7 +119,10 @@ void run_tests() {
         {35, 1e-10, 1e10, "Very small number and very large number", 0}, // Different Magnitudes
         {36, DBL_MIN, DBL_MIN + DBL_EPSILON, "DBL_MIN and DBL_MIN plus epsilon", 1}, // Boundary Values
         {37, -0.0, 0.0, "Negative zero and positive zero", 1}, // Negative Zero and Positive Zero
-        {38, ((340.090 - 740.865) * (1241.872 - 887.560) + (1095.177 - 740.865) * (1288.335 - 887.560)), 0, "#7 test failing calculation, dot product calculation compared to 0", 1},    };
+        {38, ((340.090 - 740.865) * (1241.872 - 887.560) + (1095.177 - 740.865) * (1288.335 - 887.560)), 0, "#7 test failing calculation, dot product calculation compared to 0", 1},
+        {39, (4.993 * (4262.171 - 1706.863) + 24673.843 * (1706.863 - -4.541) + 9899.818 * (-4.541 - 4262.171)), 0, "mezni hodnoty napoveda #1", 1},
+        {40, (9898.604e57 * (0.909e57 - 4267.621e57) + 3.779e57 * (4267.621e57 - 1712.313e57) + 24672.629e57 * (1712.313e57 - 0.909e57)), 0, "mezni hodnoty napoveda #2", 1},
+        };
     int num_tests = sizeof(test_cases) / sizeof(TestCase);
     for (int i = 0; i < num_tests; i++) {
         TestCase tc = test_cases[i];
