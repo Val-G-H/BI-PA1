@@ -2,6 +2,15 @@
 #include <math.h>
 #include <float.h>
 #include <stdbool.h>
+#include <stdint.h> // For int64_t
+#include <stdlib.h> // Include this header for llabs
+#include <inttypes.h> // For PRId64
+
+// Union for extracting integer representation of a double
+union Double_t {
+    double d;
+    int64_t i;
+};
 
 int eq(double left, double right)
 {
