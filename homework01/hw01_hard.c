@@ -2,20 +2,43 @@
 #include <math.h>
 #include <float.h>
 #include <stdbool.h>
-#include <stdint.h> // For int64_t
-#include <stdlib.h> // Include this header for llabs
-#include <inttypes.h> // For PRId64
+#include <limits.h>
 
-// Union for extracting integer representation of a double
-union Double_t {
-    double d;
-    int64_t i;
-};
-
-int eq(double left, double right)
+int eq(double a, double b)
 {
-    //return fabs(left - right) <= DBL_EPSILON * 100 * (fabs(left) + fabs(right));
-    return fabs(left - right) <= 1e-10;
+    const double epsilon = DBL_EPSILON; // Use the defined epsilon value
+    const double abs_epsilon = 1e-4; // Absolute epsilon for very small numbers
+
+    //printf("Comparing %.20f and %.20f\n", a, b);
+
+    // Check for NaN
+    if (isnan(a) || isnan(b)) {
+        return false;
+    }
+
+    // Check for infinity
+    if (isinf(a) || isinf(b)) {
+        return a == b;
+    }
+
+    // Handle negative zero
+    if (a == 0.0 && b == 0.0) {
+        return true;
+    }
+
+    // Check absolute difference    
+    double abs_diff = fabs(a - b);
+    if (abs_diff < abs_epsilon) {
+        return true;
+    }
+
+    // Scaled epsilon comparison
+    double maxVal = fmax(fabs(a), fabs(b));
+    double scaled_epsilon = epsilon * maxVal;
+    if (abs_diff < scaled_epsilon) {
+        return true;
+    }
+    return false;
 }
 
 struct Point {
@@ -23,11 +46,58 @@ struct Point {
 };
 
 double vectorDotProduct(struct Point a, struct Point b, struct Point c, struct Point d) {
-    return (b.x - a.x) * (b.y - a.y) + (d.x - c.x) * (d.y - c.y);
+    double maxVal = fmax(fmax(fabs(a.x), fabs(a.y)), fmax(fabs(b.x), fabs(b.y)));
+    maxVal = fmax(maxVal, fmax(fabs(c.x), fabs(c.y)));
+    maxVal = fmax(maxVal, fmax(fabs(d.x), fabs(d.y)));
+
+    if (maxVal > 0) {
+        a.x /= maxVal;
+        a.y /= maxVal;
+        b.x /= maxVal;
+        b.y /= maxVal;
+        c.x /= maxVal;
+        c.y /= maxVal;
+        d.x /= maxVal;
+        d.y /= maxVal;
+    }
+
+    double product = (b.x - a.x) * (b.y - a.y) + (d.x - c.x) * (d.y - c.y);
+
+    return product * maxVal;
 }
 
 double vectorLength(struct Point a, struct Point b) {
-    return sqrt( (b.x - a.x)*(b.x - a.x) + (b.y - a.y)*(b.y - a.y) );
+
+    double maxVal = fmax(fmax(fabs(a.x), fabs(a.y)), fmax(fabs(b.x), fabs(b.y)));
+    if (maxVal > 0) {
+        a.x /= maxVal;
+        a.y /= maxVal;
+        b.x /= maxVal;
+        b.y /= maxVal;
+    }
+
+    double length = sqrt((b.x - a.x)*(b.x - a.x) + (b.y - a.y)*(b.y - a.y));
+
+    return length * maxVal;
+}
+
+double triangleArea(struct Point a, struct Point b, struct Point c) {
+
+    double maxVal = fmax(fmax(fabs(a.x), fabs(a.y)), fmax(fabs(b.x), fabs(b.y)));
+    maxVal = fmax(maxVal, fmax(fabs(c.x), fabs(c.y)));
+
+    if (maxVal > 0) {
+        a.x /= maxVal;
+        a.y /= maxVal;
+        b.x /= maxVal;
+        b.y /= maxVal;
+        c.x /= maxVal;
+        c.y /= maxVal;
+    }
+
+    double area = a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y);
+
+    return area;
 }
 
 int main() {
@@ -38,7 +108,11 @@ int main() {
     // input for A
     printf("Bod A:\n");
     int conversions = scanf(" [ %lf , %lf %c", &(a.x), &(a.y), &closingBracket);
-    if (conversions != 3) {
+    if (conversions != 3 || closingBracket != ']') {
+        printf("Nespravny vstup.\n");
+        return 1;
+    }
+    if (a.x == DBL_MAX || a.x == DBL_MIN) {
         printf("Nespravny vstup.\n");
         return 1;
     }
@@ -47,7 +121,11 @@ int main() {
     // input for B
     printf("Bod B:\n");
     conversions = scanf(" [ %lf , %lf %c", &(b.x), &(b.y), &closingBracket);
-    if (conversions != 3) {
+    if (conversions != 3 || closingBracket != ']') {
+        printf("Nespravny vstup.\n");
+        return 1;
+    }
+    if (b.x == DBL_MAX || b.x == DBL_MIN) {
         printf("Nespravny vstup.\n");
         return 1;
     }
@@ -56,7 +134,11 @@ int main() {
     // input for C
     printf("Bod C:\n");
     conversions = scanf(" [ %lf , %lf %c", &(c.x), &(c.y), &closingBracket);
-    if (conversions != 3) {
+    if (conversions != 3 || closingBracket != ']') {
+        printf("Nespravny vstup.\n");
+        return 1;
+    }
+    if (c.x == DBL_MAX || c.x == DBL_MIN) {
         printf("Nespravny vstup.\n");
         return 1;
     }
@@ -64,7 +146,7 @@ int main() {
 
     // if three points are on the same line no parallelogram can be created
     // if three points are on the same line the area of the triangle they make up is 0
-    double area = a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y);
+    double area = triangleArea(a, b, c);
     if (eq(area, 0)) {
         printf("Rovnobezniky nelze sestrojit.\n");
         return 1;
