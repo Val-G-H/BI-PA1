@@ -68,12 +68,12 @@ int main() {
         return 0;
     }
 
-    //int result = findLCM(counting1, counting2);
+    int result = findLCM(int1, int2) - dep2;
 
-    //printf("Spoj #2 bude odjizdet 1 minutu po prijezdu spoje #1 za %d:%02d.\n", (result / 60), (result % 60));
+    printf("Spoj #2 bude odjizdet 1 minutu po prijezdu spoje #1 za %d:%02d.\n", (result / 60), (result % 60));
 
 
-    
+    /*
     while (1) {
 
         
@@ -93,6 +93,7 @@ int main() {
         
 
     }
+    */
     
 
     return 0;
