@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <limits.h>
+#include <time.h>
 
 int test_run(char *test_case, char *int1_prompt, char *int2_prompt, char *dep2_prompt, char *dep2n) {
     int int1_h, int2_h, dep2_h;
@@ -47,7 +47,9 @@ int test_run(char *test_case, char *int1_prompt, char *int2_prompt, char *dep2_p
         return 0;
     }
 
-    for (int i = 0; i < INT_MAX; i++) {
+    clock_t start_time = clock();
+
+    while (1) {
         if (counting1 >= counting2) {
             counting2 += int2;
         } else {
@@ -59,9 +61,9 @@ int test_run(char *test_case, char *int1_prompt, char *int2_prompt, char *dep2_p
             break;
         }
 
-        if (i == INT_MAX - 1) {
+        if ((double) (clock() - start_time) / CLOCKS_PER_SEC > 0.8) {
             printf("Spoj #2 nikdy nebude odjizdet 1 minutu po prijezdu spoje #1.\n");
-            return 1;            
+            return 1;
         }
     }
 
@@ -76,6 +78,7 @@ int main() {
     test_run("0004", "0:16", "0:12", "0:15", "Invalid");
 
     test_run("0006", "0:0", "0:1", "0:1", "Invalid");
+    test_run("0007", "1234:56", "54321:13", "123:34", "Invalid");
 
     return 0;
 }
