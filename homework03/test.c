@@ -11,21 +11,23 @@
 //int       countZeros     ( long long   x )
 //{
 //}
-bool      findRadixZeros ( long long   x,
-                           long long * radix,
-                           int       * zeros )
-{
-}
+//bool      findRadixZeros ( long long   x,
+//                           long long * radix,
+//                           int       * zeros )
+//{
+//}
 
 int isValid(long long x) {
   return x > 1;
 }
 
 long long findRadix (long long x) {
+
   if (!isValid(x)) return -1;
 
-  long long number = x;
   long long targetBase = 2;
+
+  long long number = x;
   int currentCount = 0;
   int highestCount = 0;
   long long base = 2;
@@ -36,7 +38,8 @@ long long findRadix (long long x) {
       //printf("count = %d\nnumber = %lld\n", currentCount, number);
       if (number % base == 0) currentCount++;
       if (number % base != 0) {
-         if (currentCount >= highestCount) targetBase = base;
+         //if (currentCount >= highestCount) { targetBase = base; printf("I like my cheeze moldy\n"); }
+         if (currentCount >= highestCount) { targetBase = base; highestCount = currentCount;}
          number = x;
          base++;
          currentCount = 0;
@@ -63,6 +66,7 @@ int countZeros(long long x) {
       //printf("count = %d\nnumber = %lld\n", currentCount, number);
       if (number % base == 0) currentCount++;
       if (number % base != 0) {
+         //if (currentCount >= highestCount) { highestCount = currentCount; printf("I like my cheeze moldy\n"); }
          if (currentCount >= highestCount) highestCount = currentCount;
          number = x;
          base++;
@@ -75,12 +79,21 @@ int countZeros(long long x) {
   return highestCount;
 }
 
+bool findRadixZeros (long long x, long long *radix, int *zeros) {
 
+  *radix = findRadix(x);
+
+  *zeros = countZeros(x);
+
+  if (*radix == -1 || *zeros == -1) { return 0; }
+
+  return 1;
+}
 
 #ifndef __PROGTEST__
 int       main ()
 {
-  /*
+  
   long long radix;
   int       zeros;
   assert ( findRadix ( 2 ) == 2 );
@@ -131,15 +144,33 @@ int       main ()
   assert ( findRadix ( -8 ) == -1 );
   assert ( countZeros ( -8 ) == -1 );
   assert ( ! findRadixZeros ( -8, &radix, &zeros ) );
-  return EXIT_SUCCESS
-
+  return EXIT_SUCCESS;
+}
+  
+  
+  /*
+  printf("findRadix(16) = %lld\n", findRadix(16));
+  printf("countZeros(16) = %d\n", countZeros(16));
+  printf("findRadix(216) = %lld\n", findRadix(216));
+  printf("countZeros(216) = %d\n", countZeros(216));
   */
-  
-  //printf("%lld\n", findRadix(16));
-  //printf("%lld\n", findRadix(216));
 
+  // findRadix given tests
+  /*
+  assert ( findRadix ( 2 ) == 2 );
+  assert ( findRadix ( 16 ) == 2 );
+  assert ( findRadix ( 17 ) == 17 );
+  assert ( findRadix ( 36 ) == 6 );
+  assert ( findRadix ( 100 ) == 10 );
+  assert ( findRadix ( 216 ) == 6 );
+  assert ( findRadix ( 343 ) == 7 );
+  assert ( findRadix ( 1024 ) == 2 );
+  assert ( findRadix ( 1296 ) == 6 );
+  assert ( findRadix ( -8 ) == -1 );
+  */
 
-  
+  // countZeros given tests
+  /*
   assert ( countZeros ( 2 ) == 1 );
   assert ( countZeros ( 16 ) == 4 );
   assert ( countZeros ( 17 ) == 1 );
@@ -150,8 +181,8 @@ int       main ()
   assert ( countZeros ( 1024 ) == 10 );
   assert ( countZeros ( 1296 ) == 4 );
   assert ( countZeros ( -8 ) == -1 );
-  
+  */
 
-  return 0;
-}
+  //return 0;
+//}
 #endif /* __PROGTEST__ */
