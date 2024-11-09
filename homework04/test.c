@@ -2,8 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+/*
 constexpr int SUITE_SPADES   = 0x000;
 constexpr int SUITE_HEARTS   = 0x080;
+
 constexpr int SUITE_CLUBS    = 0x100;
 constexpr int SUITE_DIAMONDS = 0x180;
 
@@ -16,6 +18,8 @@ constexpr int RES_DRAW       = 0;
 constexpr int RES_WIN_A      = 1;
 constexpr int RES_WIN_B      = -1;
 constexpr int RES_INVALID    = 2;
+*/
+
 
 #define SPADES(X)        ((X) | SUITE_SPADES)
 #define HEARTS(X)        ((X) | SUITE_HEARTS)
@@ -24,14 +28,32 @@ constexpr int RES_INVALID    = 2;
 
 #endif /* __PROGTEST__ */
 
+// Their constants
+const int SUITE_SPADES   = 0x000;
+const int SUITE_HEARTS   = 0x080;
+const int SUITE_CLUBS    = 0x100;
+const int SUITE_DIAMONDS = 0x180;
+
+const int RES_DRAW       = 0;
+const int RES_WIN_A      = 1;
+const int RES_WIN_B      = -1;
+const int RES_INVALID    = 2;
+
+// My constants
+const int SUITE_MASK = 0x180;
+const int VALUE_MASK = 0x07F;
+
+const int HAND_SIZE = 5;
+
+
 // Extracts the value of a card
 int getCardValue(int card) {
-    return card & VALUE_MASK;
+  return card & VALUE_MASK;
 }
 
 // Extracts the suite of a card
 int getCardSuite(int card) {
-    return card & SUITE_MASK;
+  return card & SUITE_MASK;
 }
 
 // Verifies if a card is valid (proper suite + proper value)
@@ -71,6 +93,7 @@ int checkForDuplicates ( const int playerA[], const int playerB[] ) {
   for (int i = 0; i < HAND_SIZE; i++) {
     for (int j = 0; j < HAND_SIZE; j++) {
       if (playerA[i] == playerA[j] && i != j) {
+        //printf("Duplicates found in player A hand.\n");
         return 1;
       }
     }  
@@ -80,75 +103,56 @@ int checkForDuplicates ( const int playerA[], const int playerB[] ) {
   for (int i = 0; i < HAND_SIZE; i++) {
     for (int j = 0; j < HAND_SIZE; j++) {
       if (playerB[i] == playerB[j] && i != j) {
+        //printf("Duplicates found in player B hand.\n");
         return 1;
       }
     }  
   }
-
   return 0;
 }
 
 int isSameSuit(const int hand[]) {
-    int suit = getCardSuite(hand[0]);
-    for (int i = 1; i < 5; ++i) {
-        if (getCardSuite(hand[i]) != suit)
-            return 0;
-    }
-    return 1;
+  int suit = getCardSuite(hand[0]);
+  for (int i = 1; i < 5; ++i) {
+    if (getCardSuite(hand[i]) != suit)
+      return 0;
+  }
+  return 1;
 }
 
 int cardValueToRank(int value) {
-    if (value >= '2' && value <= '9')
-        return value - '0'; // '2' to '9' -> 2 to 9
-    switch (value) {
-        case 'X': return 10; // 10
-        case 'J': return 11; // Jack
-        case 'Q': return 12; // Queen
-        case 'K': return 13; // King
-        case 'A': return 14; // Ace
-        default: return -1;  // Invalid card value, shouldn't happen though as we validate every value with isValidCard before proceeding any further
+  if (value >= '2' && value <= '9')
+    return value - '0'; // '2' to '9' -> 2 to 9
+  switch (value) {
+    case 'X': return 10; // 10
+    case 'J': return 11; // Jack
+    case 'Q': return 12; // Queen
+    case 'K': return 13; // King
+    case 'A': return 14; // Ace
+    default: return -1;  // Invalid card value, shouldn't happen though as we validate every value with isValidCard before proceeding any further
     }
 }
 
 void sortAscendingValues ( int hand[] ) {
-
   for (int i = 0; i < HAND_SIZE; ++i) {
-        for (int j = i + 1; j < HAND_SIZE; ++j) {
-            if (hand[i] > hand[j]) {
-                int temp = hand[i];
-                hand[i] = hand[j];
-                hand[j] = temp;
-            }
-        }
+    for (int j = i + 1; j < HAND_SIZE; ++j) {
+      if (hand[i] > hand[j]) {
+        int temp = hand[i];
+        hand[i] = hand[j];
+        hand[j] = temp;
+      }
     }
+  }
 
 }
 
 // Check if the sorted card values form a consecutive sequence
 int isConsecutive(int hand[]) {
-    for (int i = 0; i < 4; ++i) {
-        if (hand[i] + 1 != hand[i + 1])
-            return 0;
+  for (int i = 0; i < 4; ++i) {
+    if (hand[i] + 1 != hand[i + 1])
+      return 0;
     }
-    return 1;
-}
-
-// Main function to check for a straight flush
-int isStraightFlush(const int hand[]) {
-    if (!isSameSuit(hand))
-        return 0;
-
-    int values[5];
-    for (int i = 0; i < 5; ++i) {
-        values[i] = cardValueToRank(getCardValue(hand[i]));
-        if (values[i] == -1)
-            return 0; // Invalid card value
-    }
-
-    // Sort values to check if they are consecutive
-    sortAscendingValues(values);
-
-    return isConsecutive(values);
+  return 1;
 }
 
 int getHighestValue( const int hand[]) {
@@ -162,6 +166,180 @@ int getHighestValue( const int hand[]) {
   return values[4]; // The highest card after sorting
 
 }
+
+void countCardValues(const int hand[], int valueCount[]) {
+  for (int i = 0; i < 5; ++i) {
+    int value = cardValueToRank(getCardValue(hand[i]));
+    if (value >= 2 && value <= 14) valueCount[value]++;
+  }
+}
+
+int isStraight ( const int hand[]) {
+  int values[5];
+  for (int i = 0; i < 5; ++i) {
+    values[i] = cardValueToRank(getCardValue(hand[i]));
+    if (values[i] == -1) return -1; // Invalid card value
+  }
+  // Sort values to check if they are consecutive
+  sortAscendingValues(values);
+
+  return isConsecutive(values);
+}
+
+int isFlush(const int hand[]) {
+  if (!isSameSuit(hand)) return 0;
+  return 1;
+}
+
+// Main function to check for a straight flush
+/*
+int isStraightFlush(const int hand[]) {
+  if (!isSameSuit(hand)) return 0;
+  int values[5];
+  for (int i = 0; i < 5; ++i) {
+    values[i] = cardValueToRank(getCardValue(hand[i]));
+    if (values[i] == -1) return 0; // Invalid card value
+  }
+  // Sort values to check if they are consecutive
+  sortAscendingValues(values);
+
+  return isConsecutive(values);
+}
+*/
+
+int isStraightFlush(const int hand[]) {
+  if (!isFlush(hand) || !isStraight(hand)) return 0;
+  return 1;
+}
+
+int getFourOfKindValue(const int hand[]) {
+    int valueCount[15] = {0}; // Index 2 to 14 for card ranks 2 to Ace
+    countCardValues(hand, valueCount);
+
+    for (int i = 14; i >= 2; --i) {
+        if (valueCount[i] == 4) {
+            return i; // Return the value of the four-of-a-kind
+        }
+    }
+    return -1; // No four-of-a-kind found
+}
+
+int getThreeOfKindValue(const int hand[]) {
+    int valueCount[15] = {0}; // Index 2 to 14 for card ranks 2 to Ace
+    countCardValues(hand, valueCount);
+
+    for (int i = 14; i >= 2; --i) {
+        if (valueCount[i] == 3) {
+            return i; // Return the value of the three-of-kind
+        }
+    }
+    return -1; // No three-of-kind found
+}
+
+int isFourOfKind(const int hand[]) {
+  if (getFourOfKindValue(hand) == -1) return 0;
+  return 1;
+}
+
+int isThreeOfKind(const int hand[]) {
+  if (getThreeOfKindValue(hand) == -1) return 0;
+  return 1;
+}
+
+int getFullHouseValues(const int hand[]) {
+  int valueCount[15] = {0}; // Index 2 to 14 for card ranks 2 to Ace
+  countCardValues(hand, valueCount);
+
+  int threeOfKindValue = -1;
+  int pairValue = -1;
+
+  for (int i = 14; i >= 2; --i) {
+    if (valueCount[i] == 3 && threeOfKindValue == -1) {
+      threeOfKindValue = i; // Record the three-of-a-kind value
+    } else if (valueCount[i] == 2 && pairValue == -1) {
+      pairValue = i; // Record the pair value
+      }
+  }
+
+  if (threeOfKindValue != -1 && pairValue != -1) return threeOfKindValue; // Valid full house found
+  return -1; // No full house found
+}
+
+int isFullHouse(const int hand[]) {
+  if (getFullHouseValues(hand) != -1) return 1;
+  return 0;
+}
+
+
+
+int flushTiebreaker(const int playerA[], const int playerB[]) {
+  int handA[5];
+  int handB[5];
+  for (int i = 0; i < 5; ++i) {
+    handA[i] = cardValueToRank(getCardValue(playerA[i]));
+  }
+  for (int i = 0; i < 5; ++i) {
+    handB[i] = cardValueToRank(getCardValue(playerB[i]));
+  }
+  sortAscendingValues(handA);
+  sortAscendingValues(handB);
+  for (int i = 4; i > -1; i--) {
+    if (handA[i] > handB[i]) return RES_WIN_A;
+    if (handA[i] < handB[i]) return RES_WIN_B;
+  }
+  return RES_DRAW;
+}
+
+int isTwoPair(const int hand[]) {
+    int valueCounts[15] = {0}; // Array to count occurrences of card values (2 to A)
+    
+    // Count the card values
+    for (int i = 0; i < 5; ++i) {
+      int value = cardValueToRank(getCardValue(hand[i]));
+      valueCounts[value]++;
+    }
+
+    int pairCount = 0;
+
+    // Collect the two pairs and the kicker
+    for (int i = 14; i >= 2; --i) {
+      if (valueCounts[i] == 2) {
+        pairCount++;
+        if (pairCount == 2) break; // Found both pairs
+      }
+    }
+
+    if (pairCount == 2) {
+      return 1; // Valid two pair
+    }
+    return 0; // Not a two pair
+}
+
+int isOnePair(const int hand[]) {
+    int valueCounts[15] = {0}; // Array to count occurrences of card values (2 to A)
+    
+    // Count the card values
+    for (int i = 0; i < 5; ++i) {
+      int value = cardValueToRank(getCardValue(hand[i]));
+      valueCounts[value]++;
+    }
+
+    int pairCount = 0;
+
+    // Collect the two pairs and the kicker
+    for (int i = 14; i >= 2; --i) {
+      if (valueCounts[i] == 2) {
+        pairCount++;
+        if (pairCount == 1) break; // Found both pairs
+      }
+    }
+
+    if (pairCount == 1) {
+      return 1; // Valid one pair
+    }
+    return 0; // Not a two pair
+}
+
 
 int comparePokerHands ( const int playerA[], const int playerB[] )
 {
@@ -184,23 +362,66 @@ int comparePokerHands ( const int playerA[], const int playerB[] )
 
 
   // 4-of-kind
+  if (isFourOfKind(playerA) && isFourOfKind(playerB)) {
+    if (getFourOfKindValue(playerA) > getFourOfKindValue(playerB)) return RES_WIN_A;
+    else if (getFourOfKindValue(playerA) < getFourOfKindValue(playerB)) return RES_WIN_B;
+    else return RES_DRAW;
+  }
+  if (isFourOfKind(playerA)) return RES_WIN_A;
+  if (isFourOfKind(playerB)) return RES_WIN_B;
+
 
   // Full House
+  
+  if (isFullHouse(playerA) && isFullHouse(playerB)) {
+    if (getThreeOfKindValue(playerA) > getThreeOfKindValue(playerB)) return RES_WIN_A;
+    else if (getThreeOfKindValue(playerA) < getThreeOfKindValue(playerB)) return RES_WIN_B;
+    else return RES_DRAW;
+  }
+  if (isFullHouse(playerA)) return RES_WIN_A;
+  if (isFullHouse(playerB)) return RES_WIN_B;
+  
 
   // Flush
+  if (isFlush(playerA) && isFlush(playerB)) {
+    return flushTiebreaker(playerA, playerB);
+  }
+  if (isFlush(playerA)) return RES_WIN_A;
+  if (isFlush(playerB)) return RES_WIN_B;
 
   // Straight
+  if (isStraight(playerA) && isStraight(playerB)) {
+    if (getHighestValue(playerA) > getHighestValue(playerB)) return RES_WIN_A;
+    else if (getHighestValue(playerA) < getHighestValue(playerB)) return RES_WIN_B;
+    else return RES_DRAW;
+  }
+  if (isStraight(playerA)) return RES_WIN_A;
+  if (isStraight(playerB)) return RES_WIN_B;
+  
 
   // 3-of-kind 
-
+  if (isThreeOfKind(playerA) && isThreeOfKind(playerB)) {
+    if (getThreeOfKindValue(playerA) > getThreeOfKindValue(playerB)) return RES_WIN_A;
+    else if (getThreeOfKindValue(playerA) < getThreeOfKindValue(playerB)) return RES_WIN_B;
+    else return RES_DRAW;
+  }
+  if (isThreeOfKind(playerA)) return RES_WIN_A;
+  if (isThreeOfKind(playerB)) return RES_WIN_B;
 
   // Two Pair
+  if (isTwoPair(playerA) && isTwoPair(playerB)) return flushTiebreaker(playerA, playerB);
+  if (isTwoPair(playerA)) return RES_WIN_A;
+  if (isTwoPair(playerB)) return RES_WIN_B;
 
   // One Pair
+  if (isOnePair(playerA) && isOnePair(playerB)) return flushTiebreaker(playerA, playerB);
+  if (isOnePair(playerA)) return RES_WIN_A;
+  if (isOnePair(playerB)) return RES_WIN_B;
 
   // Nothing
+  return flushTiebreaker(playerA, playerB);
 
-  return 69;
+  return RES_DRAW;
 }
 
 void printHand (const int hand[]) {
@@ -213,6 +434,8 @@ void printHand (const int hand[]) {
 #ifndef __PROGTEST__
 int main ()
 {
+  /*
+  
 
   int straightFlush1[] = { CLUBS('J'), CLUBS('X'), CLUBS('9'), CLUBS('8'), CLUBS('7')};
   assert ( isStraightFlush(straightFlush1) == 1 );
@@ -230,9 +453,68 @@ int main ()
   assert (comparePokerHands(straightFlush2, straightFlush4) == RES_DRAW);
   assert (comparePokerHands(straightFlush4, straightFlush1) == RES_WIN_A);
 
+  int fourOfKind1[] = { CLUBS('X'), HEARTS('X'), DIAMONDS('X'), SPADES('X'), CLUBS('4')};
+  assert (isFourOfKind(fourOfKind1) == 1);
+
+  int fourOfKind2[] = { CLUBS('X'), HEARTS('X'), DIAMONDS('X'), SPADES('4'), CLUBS('4')};
+  assert (isFourOfKind(fourOfKind2) == 0);
+
+  int fourOfKind3[] = { CLUBS('2'), HEARTS('2'), DIAMONDS('2'), SPADES('2'), CLUBS('3')};
+  assert (isFourOfKind(fourOfKind3) == 1);
+
+  int fourOfKind4[] = { HEARTS('8'), HEARTS('7'), SPADES('8'), DIAMONDS('8'), CLUBS('8')};
+  assert (isFourOfKind(fourOfKind4) == 1);
+
+  assert (comparePokerHands(fourOfKind1, fourOfKind3) == RES_WIN_A);
+  assert (comparePokerHands(fourOfKind4, fourOfKind1) == RES_WIN_B);
+  assert (comparePokerHands(fourOfKind1, fourOfKind2) == RES_INVALID);
+  assert (comparePokerHands(fourOfKind3, fourOfKind4) == RES_WIN_B);
+
+  assert (comparePokerHands(straightFlush1, fourOfKind3) == RES_WIN_A);
+  assert (comparePokerHands(fourOfKind4, straightFlush4) == RES_WIN_B);
+
+  int fullHouse1[] = {CLUBS('A'), HEARTS('A'), DIAMONDS('A'), CLUBS('K'), DIAMONDS('K')};
+
+  assert (isFullHouse(fullHouse1) == 1);
+
+
+  assert ( isFlush(straightFlush1) == 1 );
+  assert ( isFlush(straightFlush2) == 1 );
+  assert ( isFlush(straightFlush3) == 0 );
+  assert ( isFlush(straightFlush4) == 1 );
+
+  int flush1[] = {CLUBS('8'), CLUBS('Q'), CLUBS('4'), CLUBS('5'), CLUBS('2')};
+  int flush2[] = {HEARTS('8'), HEARTS('Q'), HEARTS('4'), HEARTS('5'), HEARTS('2')};
+  int flush3[] = {HEARTS('A'), HEARTS('Q'), HEARTS('4'), HEARTS('5'), HEARTS('2')};
+    
+  assert ( isFlush(flush1) == 1);
+  assert ( isFlush(flush2) == 1);
+  assert ( isFlush(flush3) == 1);
+
+  assert (isFlush(fourOfKind1) == 0);
+  assert (isFlush(fourOfKind2) == 0);
+  assert (isFlush(fullHouse1) == 0);
+
+
+
+
+
+
   assert (isValidCard(SPADES('B')) == 0);
   assert (isValidCard(HEARTS('2')) == 1);
   assert (isValidCard(420) == 0);
+
+  int x0[] = { SPADES('5'), HEARTS('5'), CLUBS('5'), DIAMONDS('5'), HEARTS('X') };
+  int y0[] = { SPADES('6'), SPADES('9'), SPADES('8'), SPADES('X'), SPADES('7') };
+  assert ( comparePokerHands ( x0, y0 ) == RES_WIN_B );
+
+  int x1[] = { SPADES('2'), HEARTS('2'), CLUBS('2'), SPADES('A'), DIAMONDS('2') };
+  int y1[] = { CLUBS('A'), HEARTS('K'), HEARTS('A'), SPADES('K'), DIAMONDS('A') };
+  assert ( comparePokerHands ( x1, y1 ) == RES_WIN_A );
+
+  int x2[] = { CLUBS('3'), HEARTS('2'), HEARTS('3'), SPADES('2'), DIAMONDS('3') };
+  int y2[] = { CLUBS('A'), CLUBS('9'), CLUBS('Q'), CLUBS('4'), CLUBS('J') };
+  assert ( comparePokerHands ( x2, y2 ) == RES_WIN_A );
 
   int x13[] = { DIAMONDS('A'), HEARTS('5'), SPADES('4'), DIAMONDS('5'), CLUBS('4') };
   int y13[] = { DIAMONDS('4'), DIAMONDS('K'), CLUBS('5'), HEARTS('5'), HEARTS('4') };
@@ -252,9 +534,10 @@ int main ()
 
 
   return 0;
+*/
 
-  /*
-
+  
+  
   int x0[] = { SPADES('5'), HEARTS('5'), CLUBS('5'), DIAMONDS('5'), HEARTS('X') };
   int y0[] = { SPADES('6'), SPADES('9'), SPADES('8'), SPADES('X'), SPADES('7') };
   assert ( comparePokerHands ( x0, y0 ) == RES_WIN_B );
@@ -316,7 +599,9 @@ int main ()
   assert ( comparePokerHands ( x14, y14 ) == RES_INVALID );
 
   return EXIT_SUCCESS;
-  */
+
+  
+  
 }
 #endif /* __PROGTEST__ */
 
