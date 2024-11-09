@@ -4,7 +4,7 @@ Assignment:
  - Evaluate two poker hands and decide who would win
 
 
-Refer to the assignment details [here](Assignment.txt) and to poker rules [here](https://en.wikipedia.org/wiki/List_of_poker_hands)
+Refer to the assignment details [here](Assignment.txt) and to possible poker hands [here](https://en.wikipedia.org/wiki/List_of_poker_hands)
 
 # Current solution
 1. Verify if the cards given are valid
