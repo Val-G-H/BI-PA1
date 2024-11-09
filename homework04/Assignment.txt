@@ -1,0 +1,128 @@
+Termín odevzdání: 	18.11.2024 11:59:59 	815752.362 sec
+Pozdní odevzdání s penalizací: 	31.12.2024 23:59:59 (Penále za pozdní odevzdání: 100.0000 %)
+Hodnocení: 	3.8791
+Max. hodnocení: 	4.0000 (bez bonusů)
+Odevzdaná řešení: 	3 / 20 Volné pokusy + 10 Penalizované pokusy (-10 % penalizace za každé odevzdání)
+Nápovědy: 	1 / 2 Volné nápovědy + 2 Penalizované nápovědy (-10 % penalizace za každou nápovědu)
+
+Úkolem je realizovat funkci (ne celý program, pouze funkci), bude porovnávat výsledky ve hře poker.
+
+Funkce má následující rozhraní:
+
+int comparePokerHands ( const int a[], const int b[] );
+
+    vstupními parametry funkce jsou dvě pole playerA a playerB. Každé pole obsahuje 5 prvků - karet, které drží hráč A a B. Obě tato pole jsou určena pouze ke čtení,
+    návratovou hodnotou funkce je hodnota porovnání karet:
+        RES_WIN_A - vyhrává hráč A,
+        RES_WIN_B - vyhrává hráč B,
+        RES_DRAW - oba hráči mají stejně hodnocené karty,
+        RES_INVALID - karty jsou neplatné (duplicitní karta, neznámá karta).
+    Karty jsou reprezentované jako celá čísla typu int. Číslo je tvořeno hodnotou karty a její barvou. Hodnota karty je znak '2', '3', '4', '5', '6', '7', '8', '9', 'X', 'J', 'Q', 'K' nebo 'A'. Barva karty je určena konstantou SUITE_SPADES, SUITE_HEARTS, SUITE_CLUBS nebo SUITE_DIAMONDS. Hodnota a barva karty jsou spojené pomocí bitového operátoru or. Tedy například kárové eso je uložené jako SUITE_DIAMONDS | 'A'. Pro zkrácení zápisu jsou vytvořená 4 makra, tedy např. zápis kárového esa lze zkrátit na DIAMONDS('A').
+
+Při porovnání program vychází z pravidel pokru na Wikipedii. Vycházíme z toho, že ve hře je 52 karet, tedy karty se neopakují. To zjednodušuje porovnávání. Rozlišují se následující kombinace v pořadí od nejsilnější k nejslabší:
+
+    čistá postupka (straight flush): 5 po sobě jdoucích karet stejné barvy. Eso může být v postupce pouze s králem (neuvažuje se postupka A 2 3 4 5). Pokud mají oba hráči čistou postupku, rozhoduje nejvyšší karta.
+    4 karty stejné hodnoty (4-of-kind) - např. 4xA + jedna další karta. Pokud oba hráči mají 4 karty stejné hodnoty, rozhoduje hodnota karty (4xA > 4xK ).
+    full house: 3 karty stejné hodnoty a 2 karty stejné hodnoty (např. 3xA + 2xK). Pokud oba hráči mají full house, rozhoduje hodnota karty, kterou mají hráči 3x (3xA + 2x2 > 3xK + 2xQ).
+    stejná barva (flush): všech 5 karet má stejnou barvu, např. 5x kára. Pokud oba hráči mají flush, rozhoduje se podle hodnoty nejvyšší karty. Pokud to stále nestačí k rozhodnutí, rozhoduje se podle hodnoty druhé nejvyšší karty (případně třetí nejvyšší, ...)
+    postupka (straight): 5 po sobě jdoucích karet, které nemají stejnou barvu. Pokud oba hráči mají postupku, rozhoduje se podle hodnoty nejvyšší karty. Opět neuvažujeme postupku A 2 3 4 5.
+    3 karty stejné hodnoty (3-of-kind) - např. 3xA + dvě další libovolné karty. Pokud oba hráči mají 3 karty stejné hodnoty, rozhoduje hodnota karty (3xA + 1x2 + 1x3 > 3xQ + 1xJ + 1xX ).
+    dva páry (two pair) - např. 2xA + 2xK + libovolná karta. Pokud oba hráči mají dva páry, rozhoduje se podle hodnoty karty ve vyšším páru. Pokud jsou stále shodné, rozhoduje hodnota karty v nižším páru. Případně pak rozhoduje hodnota zbývající karty.
+    jeden pár (one pair) - např. 2xA + 3x libovolná karta. Pokud oba hráči mají jeden pár, rozhoduje se podle hodnoty karty v páru. Pokud jsou stále shodné, rozhodují hodnoty zbývajících karet v pořadí dle klesající hodnoty.
+    nic (nothing) - ostatní kombinace karet, které se nedají seskupit do silnější kombinace. Pokud oba hráči nemají nic, rozhoduje se podle hodnoty karet v pořadí od nejvyšší hodnoty.
+
+Ukázka použití funkce je v přiloženém souboru.
+
+Poznámky:
+
+    Jako základ Vašeho řešení použijte zdrojový kód z přiloženého souboru.
+    Do funkce main si můžete doplnit i další Vaše testy, případně ji můžete libovolně změnit. Důležité je zachovat podmíněný překlad.
+    Přiložený zdrojový kód obsahuje seznam hlavičkových souborů, které jsou k dispozici v testovacím prostředí. Nepřidávejte další hlavičkové soubory pomocí #include, toto může vést k chybám v kompilaci.
+    V ukázce jsou definice symbolických konstant a maker, tyto deklarace jsou v bloku podmíněného překladu. Ponechte je tak, odstranění podmíněného překladu povede k chybě při kompilaci v testovacím prostředí.
+    Pro přístup k hodnotě/barvě karty se hodí bitové operace a příslušné bitové operátory (& a |).
+    Karty jsou v ukázkách uloženy v poli seřazené podle svých hodnot, ukázky jsou tak přehlednější. V dalších testech ale mohou být karty v poli umístěné v libovolném pořadí.
+
+Vzorová data: 	
+Download
+Odevzdat: 		
+
+ Referenční řešení 	 
+
+3 	09.11.2024 00:57:09 	
+Download
+Stav odevzdání: 	Ohodnoceno 	 
+Hodnocení: 	3.8791
+
+    Hodnotitel: automat
+        Program zkompilován
+        Test 'Zakladni test podle ukazky': Úspěch
+            Dosaženo: 100.00 %, požadováno: 100.00 %
+            Celková doba běhu: 0.000 s (limit: 1.000 s)
+            Úspěch v závazném testu, hodnocení: 100.00 %
+        Test 'Test meznich hodnot': Úspěch
+            Dosaženo: 99.01 %, požadováno: 50.00 %
+            Celková doba běhu: 0.005 s (limit: 2.000 s)
+            Úspěch v nepovinném testu, hodnocení: 99.01 %
+            Nesprávný výstup [Zpřístupnit nápovědu (167 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (167 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (167 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (167 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (167 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (167 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (167 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (167 B)]
+        Test 'Test nahodnymi daty': Úspěch
+            Dosaženo: 94.42 %, požadováno: 50.00 %
+            Celková doba běhu: 0.014 s (limit: 1.995 s)
+            Úspěch v nepovinném testu, hodnocení: 94.42 %
+            Nesprávný výstup [Zpřístupnit nápovědu (164 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (168 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (165 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (163 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (166 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (169 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (170 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (164 B)]
+        Test 'Test nahodnymi daty + mem dbg': Úspěch
+            Dosaženo: 94.30 %, požadováno: 50.00 %
+            Celková doba běhu: 0.072 s (limit: 5.000 s)
+            Úspěch v nepovinném testu, hodnocení: 94.30 %
+            Nesprávný výstup [Zpřístupnit nápovědu (173 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (170 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (164 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (168 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (167 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (170 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (167 B)]
+            Nesprávný výstup [Zpřístupnit nápovědu (169 B)]
+        Celkové hodnocení: 88.16 % (= 1.00 * 0.99 * 0.94 * 0.94)
+    Použité nápovědy: 1
+    Penalizace za vyčerpané nápovědy: Není (1 <= 2 limit)
+    Celkové procentní hodnocení: 88.16 %
+    Bonus za včasné odevzdání: 0.40
+    Celkem bodů: 0.88 * ( 4.00 + 0.40 ) = 3.88
+
+SW metriky:
+
+2 	09.11.2024 00:51:02 	
+Download
+Stav odevzdání: 	Ohodnoceno 	 
+Hodnocení: 	0.0000
+
+    Hodnotitel: automat
+         Chyba při základní kompilaci
+    Celkové procentní hodnocení: 0.00 %
+    Bonus za včasné odevzdání: 0.40
+    Celkem bodů: 0.00 * ( 4.00 + 0.40 ) = 0.00
+
+
+1 	09.11.2024 00:49:12 	
+Download
+Stav odevzdání: 	Ohodnoceno 	 
+Hodnocení: 	0.0000
+
+    Hodnotitel: automat
+        Chyba při základní kompilaci [Zpřístupnit nápovědu (2068 B)]
+    Celkové procentní hodnocení: 0.00 %
+    Bonus za včasné odevzdání: 0.40
+    Celkem bodů: 0.00 * ( 4.00 + 0.40 ) = 0.00
