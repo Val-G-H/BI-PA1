@@ -323,6 +323,79 @@ int isOnePair(const int hand[]) {
     return 0; // Not a two pair
 }
 
+int twoPairTiebreaker(const int playerA[], const int playerB[]) {
+    int valueCountA[15] = {0}, valueCountB[15] = {0};
+    countCardValues(playerA, valueCountA);
+    countCardValues(playerB, valueCountB);
+
+    int pairsA[2] = {-1, -1}, pairsB[2] = {-1, -1}, kickerA = -1, kickerB = -1;
+    int pairIndexA = 0, pairIndexB = 0;
+
+    // Extract pairs and kicker for Player A
+    for (int i = 14; i >= 2; --i) {
+        if (valueCountA[i] == 2) {
+            pairsA[pairIndexA++] = i;
+        } else if (valueCountA[i] == 1 && kickerA == -1) {
+            kickerA = i;
+        }
+    }
+
+    // Extract pairs and kicker for Player B
+    for (int i = 14; i >= 2; --i) {
+        if (valueCountB[i] == 2) {
+            pairsB[pairIndexB++] = i;
+        } else if (valueCountB[i] == 1 && kickerB == -1) {
+            kickerB = i;
+        }
+    }
+
+    // Compare highest pairs first
+    if (pairsA[0] != pairsB[0]) return pairsA[0] > pairsB[0] ? RES_WIN_A : RES_WIN_B;
+    // Compare second pairs
+    if (pairsA[1] != pairsB[1]) return pairsA[1] > pairsB[1] ? RES_WIN_A : RES_WIN_B;
+    // Compare kicker
+    return kickerA != kickerB ? (kickerA > kickerB ? RES_WIN_A : RES_WIN_B) : RES_DRAW;
+}
+
+int onePairTiebreaker(const int playerA[], const int playerB[]) {
+    int valueCountA[15] = {0}, valueCountB[15] = {0};
+    countCardValues(playerA, valueCountA);
+    countCardValues(playerB, valueCountB);
+
+    int pairA = -1, pairB = -1;
+    int kickersA[3] = {-1, -1, -1}, kickersB[3] = {-1, -1, -1};
+    int kickerIndexA = 0, kickerIndexB = 0;
+
+    // Find pair and kickers for Player A
+    for (int i = 14; i >= 2; --i) {
+        if (valueCountA[i] == 2) {
+            pairA = i;
+        } else if (valueCountA[i] == 1) {
+            kickersA[kickerIndexA++] = i;
+        }
+    }
+
+    // Find pair and kickers for Player B
+    for (int i = 14; i >= 2; --i) {
+        if (valueCountB[i] == 2) {
+            pairB = i;
+        } else if (valueCountB[i] == 1) {
+            kickersB[kickerIndexB++] = i;
+        }
+    }
+
+    // Compare pairs first
+    if (pairA != pairB) return pairA > pairB ? RES_WIN_A : RES_WIN_B;
+
+    // Compare kickers in descending order
+    for (int i = 0; i < 3; ++i) {
+        if (kickersA[i] != kickersB[i]) return kickersA[i] > kickersB[i] ? RES_WIN_A : RES_WIN_B;
+    }
+
+    return RES_DRAW;
+}
+
+
 
 int comparePokerHands ( const int playerA[], const int playerB[] )
 {
@@ -390,12 +463,12 @@ int comparePokerHands ( const int playerA[], const int playerB[] )
   if (isThreeOfKind(playerB)) return RES_WIN_B;
 
   // Two Pair
-  if (isTwoPair(playerA) && isTwoPair(playerB)) return flushTiebreaker(playerA, playerB);
+  if (isTwoPair(playerA) && isTwoPair(playerB)) return twoPairTiebreaker(playerA, playerB); 
   if (isTwoPair(playerA)) return RES_WIN_A;
   if (isTwoPair(playerB)) return RES_WIN_B;
 
   // One Pair
-  if (isOnePair(playerA) && isOnePair(playerB)) return flushTiebreaker(playerA, playerB);
+  if (isOnePair(playerA) && isOnePair(playerB)) return onePairTiebreaker(playerA, playerB);
   if (isOnePair(playerA)) return RES_WIN_A;
   if (isOnePair(playerB)) return RES_WIN_B;
 
