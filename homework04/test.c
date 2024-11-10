@@ -2,23 +2,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-/*
+
 constexpr int SUITE_SPADES   = 0x000;
 constexpr int SUITE_HEARTS   = 0x080;
 
 constexpr int SUITE_CLUBS    = 0x100;
 constexpr int SUITE_DIAMONDS = 0x180;
 
-constexpr int SUITE_MASK = 0x180;
-constexpr int VALUE_MASK = 0x07F;
-
-constexpr int HAND_SIZE = 5;
-
 constexpr int RES_DRAW       = 0;
 constexpr int RES_WIN_A      = 1;
 constexpr int RES_WIN_B      = -1;
 constexpr int RES_INVALID    = 2;
-*/
+
 
 
 #define SPADES(X)        ((X) | SUITE_SPADES)
@@ -28,6 +23,8 @@ constexpr int RES_INVALID    = 2;
 
 #endif /* __PROGTEST__ */
 
+
+/*
 // Their constants
 const int SUITE_SPADES   = 0x000;
 const int SUITE_HEARTS   = 0x080;
@@ -38,12 +35,14 @@ const int RES_DRAW       = 0;
 const int RES_WIN_A      = 1;
 const int RES_WIN_B      = -1;
 const int RES_INVALID    = 2;
+*/
 
 // My constants
 const int SUITE_MASK = 0x180;
 const int VALUE_MASK = 0x07F;
 
 const int HAND_SIZE = 5;
+
 
 
 // Extracts the value of a card
@@ -58,6 +57,9 @@ int getCardSuite(int card) {
 
 // Verifies if a card is valid (proper suite + proper value)
 int isValidCard (int card) {
+
+  if (card < 0 || card > 511) return 0;
+
   int value = getCardValue(card);
   //printf("Verifying card %x + %c\n\n", suite, value);
   if ((value >= '2' && value <= '9') || value == 'A' || value == 'K' || value == 'Q' || value == 'J' || value == 'X') {
@@ -434,6 +436,19 @@ void printHand (const int hand[]) {
 #ifndef __PROGTEST__
 int main ()
 {
+int straightFlush1[] = { CLUBS('J'), CLUBS('X'), CLUBS('9'), CLUBS('8'), CLUBS('7')};
+  assert ( isStraightFlush(straightFlush1) == 1 );
+
+  int straightFlush2[] = { HEARTS('A'), HEARTS('J'), HEARTS('Q'), HEARTS('K'), HEARTS('X')};
+  assert ( isStraightFlush(straightFlush2) == 1 );
+
+  int straightFlush3[] = { DIAMONDS('A'), HEARTS('5'), SPADES('4'), DIAMONDS('5'), CLUBS('4') };
+  assert ( isStraightFlush(straightFlush3) == 0 );
+
+  int straightFlush4[] = { DIAMONDS('A'), DIAMONDS('J'), DIAMONDS('Q'), DIAMONDS('K'), DIAMONDS('X')};
+  assert ( isStraightFlush(straightFlush4) == 1 ); 
+
+  assert (comparePokerHands(straightFlush1, straightFlush2) == RES_WIN_B);
   /*
   
 
@@ -597,6 +612,12 @@ int main ()
   int x14[] = { DIAMONDS('A'), HEARTS('Z'), SPADES('4'), DIAMONDS('5'), CLUBS('4') };
   int y14[] = { DIAMONDS('4'), DIAMONDS('K'), CLUBS('5'), SPADES('5'), HEARTS('4') };
   assert ( comparePokerHands ( x14, y14 ) == RES_INVALID );
+
+
+  assert ( isValidCard(-1) == 0 );
+  assert ( isValidCard(512) == 0 );
+  assert ( isValidCard(-512) == 0 );
+  assert ( isValidCard(69420) == 0 );
 
   return EXIT_SUCCESS;
 
