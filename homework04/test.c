@@ -2,19 +2,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-
 constexpr int SUITE_SPADES   = 0x000;
 constexpr int SUITE_HEARTS   = 0x080;
-
 constexpr int SUITE_CLUBS    = 0x100;
 constexpr int SUITE_DIAMONDS = 0x180;
-
 constexpr int RES_DRAW       = 0;
 constexpr int RES_WIN_A      = 1;
 constexpr int RES_WIN_B      = -1;
 constexpr int RES_INVALID    = 2;
-
-
 
 #define SPADES(X)        ((X) | SUITE_SPADES)
 #define HEARTS(X)        ((X) | SUITE_HEARTS)
@@ -22,20 +17,6 @@ constexpr int RES_INVALID    = 2;
 #define DIAMONDS(X)      ((X) | SUITE_DIAMONDS)
 
 #endif /* __PROGTEST__ */
-
-
-/*
-// Their constants
-const int SUITE_SPADES   = 0x000;
-const int SUITE_HEARTS   = 0x080;
-const int SUITE_CLUBS    = 0x100;
-const int SUITE_DIAMONDS = 0x180;
-
-const int RES_DRAW       = 0;
-const int RES_WIN_A      = 1;
-const int RES_WIN_B      = -1;
-const int RES_INVALID    = 2;
-*/
 
 // My constants
 const int SUITE_MASK = 0x180;
@@ -372,9 +353,7 @@ int comparePokerHands ( const int playerA[], const int playerB[] )
   if (isFourOfKind(playerA)) return RES_WIN_A;
   if (isFourOfKind(playerB)) return RES_WIN_B;
 
-
   // Full House
-  
   if (isFullHouse(playerA) && isFullHouse(playerB)) {
     if (getThreeOfKindValue(playerA) > getThreeOfKindValue(playerB)) return RES_WIN_A;
     else if (getThreeOfKindValue(playerA) < getThreeOfKindValue(playerB)) return RES_WIN_B;
@@ -436,123 +415,146 @@ void printHand (const int hand[]) {
 #ifndef __PROGTEST__
 int main ()
 {
-int straightFlush1[] = { CLUBS('J'), CLUBS('X'), CLUBS('9'), CLUBS('8'), CLUBS('7')};
-  assert ( isStraightFlush(straightFlush1) == 1 );
 
-  int straightFlush2[] = { HEARTS('A'), HEARTS('J'), HEARTS('Q'), HEARTS('K'), HEARTS('X')};
-  assert ( isStraightFlush(straightFlush2) == 1 );
-
-  int straightFlush3[] = { DIAMONDS('A'), HEARTS('5'), SPADES('4'), DIAMONDS('5'), CLUBS('4') };
-  assert ( isStraightFlush(straightFlush3) == 0 );
-
-  int straightFlush4[] = { DIAMONDS('A'), DIAMONDS('J'), DIAMONDS('Q'), DIAMONDS('K'), DIAMONDS('X')};
-  assert ( isStraightFlush(straightFlush4) == 1 ); 
-
-  assert (comparePokerHands(straightFlush1, straightFlush2) == RES_WIN_B);
-  /*
+  // Verify all cards to be valid
+  assert ( isValidCard(SPADES('2') ) == 1 );
+  assert ( isValidCard(SPADES('3') ) == 1 );
+  assert ( isValidCard(SPADES('4') ) == 1 );
+  assert ( isValidCard(SPADES('5') ) == 1 );
+  assert ( isValidCard(SPADES('6') ) == 1 );
+  assert ( isValidCard(SPADES('7') ) == 1 );
+  assert ( isValidCard(SPADES('8') ) == 1 );
+  assert ( isValidCard(SPADES('9') ) == 1 );
+  assert ( isValidCard(SPADES('X') ) == 1 );
+  assert ( isValidCard(SPADES('J') ) == 1 );
+  assert ( isValidCard(SPADES('Q') ) == 1 );
+  assert ( isValidCard(SPADES('K') ) == 1 );
+  assert ( isValidCard(SPADES('A') ) == 1 );
+  assert ( isValidCard(SPADES('B') ) == 0 );
+  assert ( isValidCard(SPADES('C') ) == 0 );
+  assert ( isValidCard(SPADES('D') ) == 0 );
+  assert ( isValidCard(HEARTS('2') ) == 1 );
+  assert ( isValidCard(CLUBS('2') ) == 1 );
+  assert ( isValidCard(DIAMONDS('2') ) == 1 );
+  assert ( isValidCard(420) == 0 );
+  assert ( isValidCard(-1) == 0 );
+  assert ( isValidCard(512) == 0 );
+  assert ( isValidCard(-512) == 0 );
+  assert ( isValidCard(69420) == 0 );
   
 
-  int straightFlush1[] = { CLUBS('J'), CLUBS('X'), CLUBS('9'), CLUBS('8'), CLUBS('7')};
-  assert ( isStraightFlush(straightFlush1) == 1 );
-
-  int straightFlush2[] = { HEARTS('A'), HEARTS('J'), HEARTS('Q'), HEARTS('K'), HEARTS('X')};
-  assert ( isStraightFlush(straightFlush2) == 1 );
-
-  int straightFlush3[] = { DIAMONDS('A'), HEARTS('5'), SPADES('4'), DIAMONDS('5'), CLUBS('4') };
-  assert ( isStraightFlush(straightFlush3) == 0 );
-
-  int straightFlush4[] = { DIAMONDS('A'), DIAMONDS('J'), DIAMONDS('Q'), DIAMONDS('K'), DIAMONDS('X')};
-  assert ( isStraightFlush(straightFlush4) == 1 ); 
-
-  assert (comparePokerHands(straightFlush1, straightFlush2) == RES_WIN_B);
-  assert (comparePokerHands(straightFlush2, straightFlush4) == RES_DRAW);
-  assert (comparePokerHands(straightFlush4, straightFlush1) == RES_WIN_A);
-
-  int fourOfKind1[] = { CLUBS('X'), HEARTS('X'), DIAMONDS('X'), SPADES('X'), CLUBS('4')};
-  assert (isFourOfKind(fourOfKind1) == 1);
-
-  int fourOfKind2[] = { CLUBS('X'), HEARTS('X'), DIAMONDS('X'), SPADES('4'), CLUBS('4')};
-  assert (isFourOfKind(fourOfKind2) == 0);
-
-  int fourOfKind3[] = { CLUBS('2'), HEARTS('2'), DIAMONDS('2'), SPADES('2'), CLUBS('3')};
-  assert (isFourOfKind(fourOfKind3) == 1);
-
-  int fourOfKind4[] = { HEARTS('8'), HEARTS('7'), SPADES('8'), DIAMONDS('8'), CLUBS('8')};
-  assert (isFourOfKind(fourOfKind4) == 1);
-
-  assert (comparePokerHands(fourOfKind1, fourOfKind3) == RES_WIN_A);
-  assert (comparePokerHands(fourOfKind4, fourOfKind1) == RES_WIN_B);
-  assert (comparePokerHands(fourOfKind1, fourOfKind2) == RES_INVALID);
-  assert (comparePokerHands(fourOfKind3, fourOfKind4) == RES_WIN_B);
-
-  assert (comparePokerHands(straightFlush1, fourOfKind3) == RES_WIN_A);
-  assert (comparePokerHands(fourOfKind4, straightFlush4) == RES_WIN_B);
-
-  int fullHouse1[] = {CLUBS('A'), HEARTS('A'), DIAMONDS('A'), CLUBS('K'), DIAMONDS('K')};
-
-  assert (isFullHouse(fullHouse1) == 1);
-
-
-  assert ( isFlush(straightFlush1) == 1 );
-  assert ( isFlush(straightFlush2) == 1 );
-  assert ( isFlush(straightFlush3) == 0 );
-  assert ( isFlush(straightFlush4) == 1 );
-
-  int flush1[] = {CLUBS('8'), CLUBS('Q'), CLUBS('4'), CLUBS('5'), CLUBS('2')};
-  int flush2[] = {HEARTS('8'), HEARTS('Q'), HEARTS('4'), HEARTS('5'), HEARTS('2')};
-  int flush3[] = {HEARTS('A'), HEARTS('Q'), HEARTS('4'), HEARTS('5'), HEARTS('2')};
-    
-  assert ( isFlush(flush1) == 1);
-  assert ( isFlush(flush2) == 1);
-  assert ( isFlush(flush3) == 1);
-
-  assert (isFlush(fourOfKind1) == 0);
-  assert (isFlush(fourOfKind2) == 0);
-  assert (isFlush(fullHouse1) == 0);
-
-
-
-
-
-
-  assert (isValidCard(SPADES('B')) == 0);
-  assert (isValidCard(HEARTS('2')) == 1);
-  assert (isValidCard(420) == 0);
-
-  int x0[] = { SPADES('5'), HEARTS('5'), CLUBS('5'), DIAMONDS('5'), HEARTS('X') };
-  int y0[] = { SPADES('6'), SPADES('9'), SPADES('8'), SPADES('X'), SPADES('7') };
-  assert ( comparePokerHands ( x0, y0 ) == RES_WIN_B );
-
-  int x1[] = { SPADES('2'), HEARTS('2'), CLUBS('2'), SPADES('A'), DIAMONDS('2') };
-  int y1[] = { CLUBS('A'), HEARTS('K'), HEARTS('A'), SPADES('K'), DIAMONDS('A') };
-  assert ( comparePokerHands ( x1, y1 ) == RES_WIN_A );
-
-  int x2[] = { CLUBS('3'), HEARTS('2'), HEARTS('3'), SPADES('2'), DIAMONDS('3') };
-  int y2[] = { CLUBS('A'), CLUBS('9'), CLUBS('Q'), CLUBS('4'), CLUBS('J') };
-  assert ( comparePokerHands ( x2, y2 ) == RES_WIN_A );
-
-  int x13[] = { DIAMONDS('A'), HEARTS('5'), SPADES('4'), DIAMONDS('5'), CLUBS('4') };
-  int y13[] = { DIAMONDS('4'), DIAMONDS('K'), CLUBS('5'), HEARTS('5'), HEARTS('4') };
-  assert ( comparePokerHands ( x13, y13 ) == RES_INVALID );
-
-  int x14[] = { DIAMONDS('A'), HEARTS('Z'), SPADES('4'), DIAMONDS('5'), CLUBS('4') };
-  int y14[] = { DIAMONDS('4'), DIAMONDS('K'), CLUBS('5'), SPADES('5'), HEARTS('4') };
-  assert ( comparePokerHands ( x14, y14 ) == RES_INVALID );
-
+  // duplicated DIAMONDS('A') on hand A
   int x15[] = { DIAMONDS('A'), HEARTS('2'), SPADES('4'), DIAMONDS('A'), CLUBS('4') };
   int y15[] = { DIAMONDS('4'), DIAMONDS('K'), CLUBS('5'), SPADES('5'), HEARTS('4') };
   assert ( comparePokerHands ( x15, y15 ) == RES_INVALID );
 
+  // duplicated DIAMONDS('4') on hand B
   int x16[] = { DIAMONDS('A'), HEARTS('2'), SPADES('4'), DIAMONDS('X'), CLUBS('4') };
   int y16[] = { DIAMONDS('4'), DIAMONDS('4'), CLUBS('5'), SPADES('5'), HEARTS('4') };
   assert ( comparePokerHands ( x16, y16 ) == RES_INVALID );
 
+  // Duplicated DIAMONDS('6') in between players, last of 5 at hands
+  int x20[] = { DIAMONDS('2'), DIAMONDS('3'), DIAMONDS('4'), DIAMONDS('5'), DIAMONDS('6') };
+  int y20[] = { DIAMONDS('7'), DIAMONDS('8'), DIAMONDS('9'), DIAMONDS('X'), DIAMONDS('6') };
+  assert ( checkForDuplicates ( x20, y20 ) == 1 );
 
-  return 0;
-*/
+  // Duplicated DIAMONDS('2') at  player A
+  int x21[] = { DIAMONDS('2'), DIAMONDS('3'), DIAMONDS('4'), DIAMONDS('5'), DIAMONDS('2') };
+  int y21[] = { DIAMONDS('7'), DIAMONDS('8'), DIAMONDS('9'), DIAMONDS('X'), DIAMONDS('J') };
+  assert ( checkForDuplicates ( x21, y21 ) == 1 );
 
+  // Duplicated DIAMONDS('X') at  player B
+  int x22[] = { DIAMONDS('2'), DIAMONDS('3'), DIAMONDS('4'), DIAMONDS('5'), DIAMONDS('6') };
+  int y22[] = { DIAMONDS('7'), DIAMONDS('8'), DIAMONDS('9'), DIAMONDS('X'), DIAMONDS('X') };
+  assert ( checkForDuplicates ( x22, y22 ) == 1 );
+
+  int straightFlush1[] = { CLUBS('J'), CLUBS('X'), CLUBS('9'), CLUBS('8'), CLUBS('7')};
+  int straightFlush2[] = { HEARTS('A'), HEARTS('J'), HEARTS('Q'), HEARTS('K'), HEARTS('X')};
+  int straightFlush3[] = { DIAMONDS('A'), HEARTS('5'), SPADES('4'), DIAMONDS('5'), CLUBS('4') };
+  int straightFlush4[] = { DIAMONDS('A'), DIAMONDS('J'), DIAMONDS('Q'), DIAMONDS('K'), DIAMONDS('X')};
+  int fourOfKind1[] = { CLUBS('X'), HEARTS('X'), DIAMONDS('X'), SPADES('X'), CLUBS('4')};
+  int fourOfKind2[] = { CLUBS('X'), HEARTS('X'), DIAMONDS('X'), SPADES('4'), CLUBS('4')};
+  int fourOfKind3[] = { CLUBS('2'), HEARTS('2'), DIAMONDS('2'), SPADES('2'), CLUBS('3')};
+  int fourOfKind4[] = { HEARTS('8'), HEARTS('7'), SPADES('8'), DIAMONDS('8'), CLUBS('8')};
+
+  assert ( isStraightFlush(straightFlush1) == 1 );
+  assert ( isStraightFlush(straightFlush2) == 1 );
+  assert ( isStraightFlush(straightFlush3) == 0 );
+  assert ( isStraightFlush(straightFlush4) == 1 ); 
+  assert ( isFourOfKind(fourOfKind1) == 1 );
+  assert ( isFourOfKind(fourOfKind2) == 0 );
+  assert ( isFourOfKind(fourOfKind3) == 1 );
+  assert ( isFourOfKind(fourOfKind4) == 1 );
+
+  assert ( comparePokerHands(straightFlush1, straightFlush2) == RES_WIN_B );
+  assert ( comparePokerHands(straightFlush2, straightFlush4) == RES_DRAW );
+  assert ( comparePokerHands(straightFlush4, straightFlush1) == RES_WIN_A );
+  assert ( comparePokerHands(fourOfKind1, fourOfKind3) == RES_WIN_A );
+  assert ( comparePokerHands(fourOfKind4, fourOfKind1) == RES_WIN_B );
+  assert ( comparePokerHands(fourOfKind1, fourOfKind2) == RES_INVALID );
+  assert ( comparePokerHands(fourOfKind3, fourOfKind4) == RES_WIN_B );
+  assert ( comparePokerHands(straightFlush1, fourOfKind3) == RES_WIN_A );
+  assert ( comparePokerHands(fourOfKind4, straightFlush4) == RES_WIN_B );
+
+  int fullHouse1[] = {CLUBS('A'), HEARTS('A'), DIAMONDS('A'), CLUBS('K'), DIAMONDS('K')};
+  int fullHouse2[] = {CLUBS('Q'), HEARTS('Q'), DIAMONDS('Q'), HEARTS('K'), SPADES('K')};
+  int flush1[] = {CLUBS('8'), CLUBS('J'), CLUBS('4'), CLUBS('5'), CLUBS('2')};
+  int flush2[] = {HEARTS('8'), HEARTS('Q'), HEARTS('4'), HEARTS('5'), HEARTS('2')};
+  int flush3[] = {SPADES('A'), SPADES('Q'), SPADES('4'), SPADES('5'), SPADES('2')};
+  int flush4[] = {DIAMONDS('A'), DIAMONDS('Q'), DIAMONDS('4'), DIAMONDS('5'), DIAMONDS('3')};
+  int flush5[] = {HEARTS('A'), HEARTS('Q'), HEARTS('4'), HEARTS('5'), HEARTS('3')};
+
+  assert ( isFullHouse(fullHouse1) == 1 );
+  assert ( isFullHouse(fullHouse2) == 1 );
+  assert ( isFlush(flush1) == 1 );
+  assert ( isFlush(flush2) == 1 );
+  assert ( isFlush(flush3) == 1 );
+  assert ( isFlush(fourOfKind1) == 0 );
+  assert ( isFlush(fourOfKind2) == 0 );
+  assert ( isFlush(fullHouse1) == 0 );
+
+  assert ( comparePokerHands(fullHouse1, fullHouse2) == RES_WIN_A );
+  assert ( comparePokerHands(flush1, fullHouse2) == RES_WIN_B );
+  assert ( comparePokerHands(flush2, flush3) == RES_WIN_B );
+  assert ( comparePokerHands(flush3, flush4) == RES_WIN_B );
+  assert ( comparePokerHands(flush4, flush5) == RES_DRAW );
+
+  int straight1[] = {CLUBS('8'), SPADES('X'), CLUBS('9'), SPADES('J'), CLUBS('7')};
+  int straight2[] = {SPADES('8'), CLUBS('X'), SPADES('9'), CLUBS('Q'), SPADES('7')};
+  int straight3[] = {HEARTS('8'), HEARTS('X'), DIAMONDS('9'), HEARTS('Q'), DIAMONDS('J')};
   
+  assert ( isStraight(straight1) == 1 );
+  assert ( isStraight(straight2) == 0 );
+  assert ( isStraight(straight3) == 1 );
+
+  assert ( comparePokerHands(straight1, straight3) == RES_WIN_B );
+
+  int threeOfKind1[] = {CLUBS('8'), SPADES('8'), HEARTS('8'), SPADES('J'), CLUBS('7')};
+  int threeOfKind2[] = {CLUBS('8'), SPADES('8'), HEARTS('Q'), SPADES('J'), CLUBS('7')};
+  int threeOfKind3[] = {CLUBS('9'), SPADES('9'), HEARTS('9'), SPADES('A'), CLUBS('K')};
   
+  assert ( isThreeOfKind(threeOfKind1) == 1 );
+  assert ( isThreeOfKind(threeOfKind2) == 0 );
+  assert ( isThreeOfKind(threeOfKind3) == 1 );
+
+  assert ( comparePokerHands(threeOfKind1, threeOfKind3) == RES_WIN_B );
+
+  int twoPair1[] = {CLUBS('8'), SPADES('8'), HEARTS('J'), SPADES('J'), CLUBS('3')};
+  int twoPair2[] = {CLUBS('8'), SPADES('9'), HEARTS('Q'), SPADES('J'), CLUBS('7')};
+  int twoPair3[] = {CLUBS('9'), SPADES('9'), HEARTS('X'), SPADES('X'), CLUBS('K')};
+  int twoPair4[] = {HEARTS('9'), DIAMONDS('9'), CLUBS('X'), DIAMONDS('X'), SPADES('K')};
+  int twoPair5[] = {HEARTS('9'), DIAMONDS('9'), CLUBS('X'), DIAMONDS('X'), CLUBS('Q')};
+  
+  assert ( isTwoPair(twoPair1) == 1 );
+  assert ( isTwoPair(twoPair2) == 0 );
+  assert ( isTwoPair(twoPair3) == 1 );
+  assert ( isTwoPair(twoPair4) == 1 );
+  assert ( isTwoPair(twoPair5) == 1 );
+
+  assert ( comparePokerHands(twoPair1, twoPair3) == RES_WIN_A );
+  assert ( comparePokerHands(twoPair3, twoPair4) == RES_DRAW );
+  assert ( comparePokerHands(twoPair3, twoPair5) == RES_WIN_A );
+
   int x0[] = { SPADES('5'), HEARTS('5'), CLUBS('5'), DIAMONDS('5'), HEARTS('X') };
   int y0[] = { SPADES('6'), SPADES('9'), SPADES('8'), SPADES('X'), SPADES('7') };
   assert ( comparePokerHands ( x0, y0 ) == RES_WIN_B );
@@ -613,16 +615,7 @@ int straightFlush1[] = { CLUBS('J'), CLUBS('X'), CLUBS('9'), CLUBS('8'), CLUBS('
   int y14[] = { DIAMONDS('4'), DIAMONDS('K'), CLUBS('5'), SPADES('5'), HEARTS('4') };
   assert ( comparePokerHands ( x14, y14 ) == RES_INVALID );
 
-
-  assert ( isValidCard(-1) == 0 );
-  assert ( isValidCard(512) == 0 );
-  assert ( isValidCard(-512) == 0 );
-  assert ( isValidCard(69420) == 0 );
-
-  return EXIT_SUCCESS;
-
-  
-  
+  return EXIT_SUCCESS; 
 }
 #endif /* __PROGTEST__ */
 
