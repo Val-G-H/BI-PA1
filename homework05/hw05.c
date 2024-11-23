@@ -14,8 +14,8 @@ DynamicArray createArray(size_t initialCapacity) {
     DynamicArray arr;
     arr.data = (int *)malloc(initialCapacity * sizeof(int));
     if (arr.data == NULL) {
-        fprintf(stderr, "Error: Memory allocation failed\n");
-        exit(EXIT_FAILURE);
+        //fprintf(stderr, "Error: Memory allocation failed\n");
+        exit(1);
     }
     arr.size = 0;
     arr.capacity = initialCapacity;
@@ -37,8 +37,8 @@ void append(DynamicArray *arr, int value) {
         arr->capacity *= 2;
         int *newData = (int *)realloc(arr->data, arr->capacity * sizeof(int));
         if (newData == NULL) {
-            fprintf(stderr, "Error: Memory reallocation failed\n");
-            exit(EXIT_FAILURE);
+            //fprintf(stderr, "Error: Memory reallocation failed\n");
+            exit(1);
         }
         arr->data = newData;
     }
@@ -64,6 +64,8 @@ int readRows(DynamicArray *arr) {
         if (ch == '{') {
             // Start of input
             expectingDigit = 1;
+        } else if (isdigit(ch) && !expectingDigit) {
+            return 0;
         } else if (isdigit(ch)) {
             ungetc(ch, stdin);
             if (scanf("%d", &num) != 1 || num <= 0) {
@@ -88,9 +90,9 @@ int readRows(DynamicArray *arr) {
 }
 
 // Funkce pro výpočet největšího společného dělitele (GCD)
-int gcd(int a, int b) {
+long long int gcd(long long int a, long long int b) {
     while (b != 0) {
-        int temp = b;
+        long long int temp = b;
         b = a % b;
         a = temp;
     }
@@ -98,7 +100,7 @@ int gcd(int a, int b) {
 }
 
 // Funkce pro výpočet nejmenšího společného násobku (LCM)
-int lcm(int a, int b) {
+long long int lcm(long long int a, long long int b) {
     return (a / gcd(a, b)) * b;
 }
 
@@ -117,7 +119,7 @@ int readSegment(const DynamicArray* arr) {
         if (conversions == EOF) {
             return 1;
         }
-        if (conversions != 2 || from > to || from > arr->size || to > arr->size || to < 0 || from < 0) {
+        if (conversions != 2 || from >= to || from > arr->size || to > arr->size || to < 0 || from < 0) {
             return 0;
         }
 
@@ -128,11 +130,11 @@ int readSegment(const DynamicArray* arr) {
 }
 
 int main() {
-
     DynamicArray roadRows = createArray(1);
 
     if (!readRows(&roadRows)) {
         puts("Nespravny vstup.");
+        freeArray(&roadRows);
         return 1;
     }
     //printArray(&roadRows);
@@ -141,6 +143,7 @@ int main() {
 
     if (!readSegment(&roadRows)) {
         puts("Nespravny vstup.");
+        freeArray(&roadRows);
         return 1;
     }
 
