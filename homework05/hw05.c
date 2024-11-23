@@ -4,9 +4,9 @@
 #include <assert.h>
 
 typedef struct {
-    int *data;        
-    size_t size;      
-    size_t capacity;  
+    int *data;       // integer array
+    size_t size;     // current element count
+    size_t capacity; // potential storage
 } DynamicArray;
 
 // Funkce pro vytvoření prázdného pole
@@ -57,6 +57,8 @@ int readRows(DynamicArray *arr) {
     char ch;
     int expectingDigit = 0;
 
+    printf("Pocty pruhu:\n");
+
     // Read characters until EOF
     while ((ch = getchar()) != EOF) {
         if (ch == '{') {
@@ -65,7 +67,7 @@ int readRows(DynamicArray *arr) {
         } else if (isdigit(ch)) {
             ungetc(ch, stdin);
             if (scanf("%d", &num) != 1 || num <= 0) {
-                fprintf(stderr, "Invalid input: only positive integers are allowed.\n");
+                //fprintf(stderr, "Invalid input: only positive integers are allowed.\n");
                 return 0;
             }
             append(arr, num);
@@ -75,14 +77,54 @@ int readRows(DynamicArray *arr) {
         } else if (ch == '}' && !expectingDigit) {
             return 1; // Successfully finished reading input
         } else if (!isspace(ch)) {
-            fprintf(stderr, "Invalid input format.\n");
+            //fprintf(stderr, "Invalid input format.\n");
             return 0; // Invalid character or format
         }
     }
 
     // If we reach EOF without a closing brace
-    fprintf(stderr, "Invalid input: missing closing brace.\n");
+    //fprintf(stderr, "Invalid input: missing closing brace.\n");
     return 0;
+}
+
+// Funkce pro výpočet největšího společného dělitele (GCD)
+int gcd(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+
+// Funkce pro výpočet nejmenšího společného násobku (LCM)
+int lcm(int a, int b) {
+    return (a / gcd(a, b)) * b;
+}
+
+long long int calculateVehicles (size_t from, size_t to, const DynamicArray * arr) {
+    long long int result = arr->data[from];
+    for (size_t i = from + 1; i < to; i++) {
+        result = lcm(result, arr->data[i]);
+    }
+    return result;
+}
+
+int readSegment(const DynamicArray* arr) {
+    while (1) {
+        size_t to, from;
+        int conversions = scanf("%lu %lu", &from, &to);
+        if (conversions == EOF) {
+            return 1;
+        }
+        if (conversions != 2 || from > to || from > arr->size || to > arr->size || to < 0 || from < 0) {
+            return 0;
+        }
+
+        long long int result = calculateVehicles(from, to, arr);
+
+        printf("Vozidel: %lld\n", result);
+    }
 }
 
 int main() {
@@ -90,11 +132,19 @@ int main() {
     DynamicArray roadRows = createArray(1);
 
     if (!readRows(&roadRows)) {
-        puts("womp womp");
+        puts("Nespravny vstup.");
+        return 1;
     }
-    
+    //printArray(&roadRows);
 
-    printArray(&roadRows);
+    printf("Trasy:\n");
+
+    if (!readSegment(&roadRows)) {
+        puts("Nespravny vstup.");
+        return 1;
+    }
+
+    //printf("\n");
 
     freeArray(&roadRows);
     return 0;
