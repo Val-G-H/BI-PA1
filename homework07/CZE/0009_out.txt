@@ -1,0 +1,3 @@
+Posloupnost:
+Celkem: 2
+Nespravny vstup.
