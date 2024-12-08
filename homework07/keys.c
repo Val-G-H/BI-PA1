@@ -82,6 +82,7 @@ void solve_problem(char* code, int isVerbose) {
     generateSplits(code, splitPositions, 0, 1, isVerbose);
 
     printf("Celkem: %d", count);
+    free(splitPositions);
 
     return;
 }
