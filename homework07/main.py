@@ -22,7 +22,8 @@ def helper(head, tail):
             report_combination(head)
         return
     for i in range(1, len(tail) + 1):
-        helper(head + [tail[:i]], tail[i:])
+        if is_valid(head + [tail[:i]]):
+            helper(head + [tail[:i]], tail[i:])
 
 ## Main code ends here
 
